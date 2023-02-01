@@ -5,12 +5,14 @@ const DiscogsSearcher = ({selectedFile, tags}) => {
   const [data, setData] = useState()
 
   useEffect(() => {
+    // First, look into the tags
+    const keywords = tags.artist + " " + tags.title
+
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3100/search", {
           params: {
-            artist: tags.artist,
-            title: tags.title
+            keywords: keywords
           }
         });
         console.log(response.data);
