@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Result from "../Result/Result";
+import "./DiscogsSearcher.scss";
 
 const DiscogsSearcher = ({ selectedFile, tags }) => {
-  const [data, setData] = useState();
+  const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
+
     let keywords = "";
 
-    if (tags.artist && tags.title) {
-      keywords = tags.artist + " " + tags.title;
+    if (tags.title) {
+      if (tags.artist) {
+        keywords += tags.artist;
+        keywords += " ";
+      }
+      keywords += tags.title;
     } else {
       keywords = selectedFile.name;
       keywords = keywords.replace(" - ", " ");
       keywords = keywords.replace(".mp3", "");
-      console.log(keywords);
     }
 
     const fetchData = async () => {
@@ -23,8 +31,8 @@ const DiscogsSearcher = ({ selectedFile, tags }) => {
             keywords: keywords,
           },
         });
-        console.log(response.data);
         setData(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.response);
       }
@@ -32,7 +40,15 @@ const DiscogsSearcher = ({ selectedFile, tags }) => {
     fetchData();
   }, [tags]);
 
-  return <>{data && <div></div>}</>;
+  return (
+    !isLoading && (
+      <div className="results">
+        {data.results.map((result, index) => {
+          console.log(result);
+          return <Result key={index} result={result} />;
+        })}
+      </div>
+    )
+  );
 };
-
 export default DiscogsSearcher;
