@@ -1,29 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
 const FileInfoDisplayer = (props) => {
-  const [tags, setTags] = useState()
-  const [selectedFile, setSelectedFile] = useState()
+  const [tags, setTags] = useState();
+  const [selectedFile, setSelectedFile] = useState();
 
   useEffect(() => {
     if (selectedFile !== props.selectedFile) {
-      setSelectedFile(props.selectedFile)
+      setSelectedFile(props.selectedFile);
 
       window.jsmediatags.read(props.selectedFile, {
         onSuccess: function (result) {
-          console.log(result.tags);
-          props.setTags(result.tags)
-          setTags(result.tags)
+          props.setTags(result.tags);
+          setTags(result.tags);
         },
         onError: function (error) {
           console.log(error);
-        }
+        },
       });
     }
-  }, [props.selectedFile])
+  }, [props.selectedFile]);
 
   return (
     <>
-      {tags &&
+      {tags && (
         <div>
           <div>
             <h1>File info</h1>
@@ -38,18 +37,20 @@ const FileInfoDisplayer = (props) => {
             <p>Genre: {tags?.genre}</p>
             <p>Year: {tags?.year}</p>
             <p>Track: {tags?.track}</p>
-            {tags.picture && <img
-              src={`data:${tags.picture.format};base64,${btoa(
-                new Uint8Array(tags.picture.data).reduce(
-                  (data, byte) => data + String.fromCharCode(byte),
-                  ""
-                )
-              )}`}
-              alt={tags?.picture.description}
-            />}
+            {tags.picture && (
+              <img
+                src={`data:${tags.picture.format};base64,${btoa(
+                  new Uint8Array(tags.picture.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),
+                    ""
+                  )
+                )}`}
+                alt={tags?.picture.description}
+              />
+            )}
           </div>
         </div>
-      }
+      )}
     </>
   );
 };

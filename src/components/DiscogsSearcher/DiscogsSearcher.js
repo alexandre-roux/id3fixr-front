@@ -44,7 +44,6 @@ const DiscogsSearcher = ({ selectedFile, tags }) => {
     !isLoading && (
       <div className="results">
         {data.results.map((result, index) => {
-          console.log(result);
           return <Result key={index} result={result} />;
         })}
       </div>

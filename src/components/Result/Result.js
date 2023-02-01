@@ -6,6 +6,9 @@ const Result = ({ result }) => {
   const indexOfSeparator = title.indexOf(" - ");
   const artist = title.substring(0, indexOfSeparator);
   title = title.substring(indexOfSeparator + 3);
+  if (result.type === "master") {
+    title += " (Master release)";
+  }
 
   return (
     <div className="result">
