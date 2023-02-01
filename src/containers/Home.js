@@ -1,17 +1,20 @@
 import React, {useState} from 'react';
 import FileSelector from "../components/FileSelector";
 import FileInfoDisplayer from "../components/FileInfoDisplayer";
+import DiscogsSearcher from "../components/DiscogsSearcher";
 
 const Home = () => {
   const [selectedFile, setSelectedFile] = useState();
+  const [tags, setTags] = useState()
 
   return (
     <div>
-      <FileSelector selectedFile={selectedFile} setSelectedFile={setSelectedFile}/>
-      {selectedFile ? (
-        <FileInfoDisplayer selectedFile={selectedFile}/>
-      ) : (
-        <p>Select a file to show details</p>
+      <FileSelector setSelectedFile={setSelectedFile}/>
+      {selectedFile && (
+        <FileInfoDisplayer selectedFile={selectedFile} setTags={setTags}/>
+      )}
+      {tags && (
+        <DiscogsSearcher selectedFile={selectedFile} tags={tags}/>
       )}
     </div>
   );

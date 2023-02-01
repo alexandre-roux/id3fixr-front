@@ -1,11 +1,9 @@
 import React from 'react';
 
-const FileSelector = ({selectedFile, setSelectedFile}) => {
+const FileSelector = ({setSelectedFile}) => {
   const changeHandler = (event) => {
     const file = event.target.files[0]
-    if (file !== selectedFile) {
-      setSelectedFile(file);
-    }
+    setSelectedFile(file);
   }
 
   return (

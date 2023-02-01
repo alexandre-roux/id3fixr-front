@@ -1,19 +1,25 @@
 import React, {useEffect, useState} from 'react';
 
-const FileInfoDisplayer = ({selectedFile}) => {
+const FileInfoDisplayer = (props) => {
   const [tags, setTags] = useState()
+  const [selectedFile, setSelectedFile] = useState()
 
   useEffect(() => {
-    window.jsmediatags.read(selectedFile, {
-      onSuccess: function (result) {
-        setTags(result.tags)
-        console.log(result.tags);
-      },
-      onError: function (error) {
-        console.log(error);
-      }
-    });
-  }, [selectedFile])
+    if (selectedFile !== props.selectedFile) {
+      setSelectedFile(props.selectedFile)
+
+      window.jsmediatags.read(props.selectedFile, {
+        onSuccess: function (result) {
+          console.log(result.tags);
+          props.setTags(result.tags)
+          setTags(result.tags)
+        },
+        onError: function (error) {
+          console.log(error);
+        }
+      });
+    }
+  }, [props.selectedFile])
 
   return (
     <>
@@ -21,8 +27,8 @@ const FileInfoDisplayer = ({selectedFile}) => {
         <div>
           <div>
             <h1>File info</h1>
-            <p>Filename: {selectedFile.name}</p>
-            <p>Filetype: {selectedFile.type}</p>
+            <p>Filename: {props.selectedFile.name}</p>
+            <p>Filetype: {props.selectedFile.type}</p>
           </div>
           <div>
             <h1>ID3 tags</h1>
