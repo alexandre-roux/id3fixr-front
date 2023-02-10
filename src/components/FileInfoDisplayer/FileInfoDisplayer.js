@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./FileInfoDisplayer.scss";
 
 const FileInfoDisplayer = (props) => {
   const [tags, setTags] = useState();
@@ -10,6 +11,7 @@ const FileInfoDisplayer = (props) => {
 
       window.jsmediatags.read(props.selectedFile, {
         onSuccess: function (result) {
+          console.log(result.tags);
           props.setTags(result.tags);
           setTags(result.tags);
         },
@@ -23,14 +25,12 @@ const FileInfoDisplayer = (props) => {
   return (
     <>
       {tags && (
-        <div>
+        <div className="file-informations">
           <div>
-            <h1>File info</h1>
+            <h1>File informations</h1>
             <p>Filename: {props.selectedFile.name}</p>
-            <p>Filetype: {props.selectedFile.type}</p>
           </div>
           <div>
-            <h1>ID3 tags</h1>
             <p>Title: {tags?.title}</p>
             <p>Artist: {tags?.artist}</p>
             <p>Album: {tags?.album}</p>

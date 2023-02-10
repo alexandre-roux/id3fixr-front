@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FileSelector from "../components/FileSelector/FileSelector";
-import FileInfoDisplayer from "../components/FileInfoDisplayer";
+import FileInfoDisplayer from "../components/FileInfoDisplayer/FileInfoDisplayer";
 import DiscogsSearcher from "../components/DiscogsSearcher/DiscogsSearcher";
 import "./Home.scss";
 
