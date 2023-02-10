@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FileSelector from "../components/FileSelector";
+import FileSelector from "../components/FileSelector/FileSelector";
 import FileInfoDisplayer from "../components/FileInfoDisplayer";
 import DiscogsSearcher from "../components/DiscogsSearcher/DiscogsSearcher";
 
