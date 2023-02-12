@@ -3,6 +3,8 @@ import "./FileSelector.scss";
 import {useDropzone} from "react-dropzone";
 
 //TODO handle a list of files to edit
+//TODO maybe allow to drop anywhere on the page
+//TODO check compatibility with other file types
 const FileSelector = ({ setSelectedFile }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
