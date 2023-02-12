@@ -9,15 +9,9 @@ const FileInfoDisplayer = (props) => {
     if (selectedFile !== props.selectedFile) {
       setSelectedFile(props.selectedFile);
 
-      window.jsmediatags.read(props.selectedFile, {
-        onSuccess: function (result) {
-          console.log(result.tags);
-          props.setTags(result.tags);
-          setTags(result.tags);
-        },
-        onError: function (error) {
-          console.log(error);
-        },
+      window.musicmetadata(props.selectedFile, function (err, result) {
+        if (err) throw err;
+        console.log(result);
       });
     }
   }, [props.selectedFile]);
