@@ -1,0 +1,12 @@
+.album-details {
+  .back-to-results {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    gap: 5px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

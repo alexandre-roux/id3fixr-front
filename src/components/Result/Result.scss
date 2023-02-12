@@ -1,9 +1,17 @@
 .result {
   width: 150px;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   .result-cover {
     height: 150px;
     width: 150px;
     object-fit: cover;
+  }
+
+  .title {
+    font-weight: bold;
   }
 }

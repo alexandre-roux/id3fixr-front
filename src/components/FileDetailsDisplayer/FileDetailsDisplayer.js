@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./FileInfoDisplayer.scss";
+import "./FileDetailsDisplayer.scss";
 
-const FileInfoDisplayer = (props) => {
+const FileDetailsDisplayer = (props) => {
   const [tags, setTags] = useState();
   const [selectedFile, setSelectedFile] = useState();
 
@@ -11,9 +11,9 @@ const FileInfoDisplayer = (props) => {
 
       window.musicmetadata(props.selectedFile, function (err, result) {
         if (err) throw err;
-        console.log(result);
         props.setTags(result);
         setTags(result);
+        props.setDisplayResults(true);
       });
     }
   }, [props.selectedFile]);
@@ -21,9 +21,8 @@ const FileInfoDisplayer = (props) => {
   return (
     <>
       {tags && (
-        <div className="file-informations">
+        <div className="file-details">
           <div>
-            <h1>File informations</h1>
             <p>Filename: {props.selectedFile.name}</p>
           </div>
           <div>
@@ -55,4 +54,4 @@ const FileInfoDisplayer = (props) => {
   );
 };
 
-export default FileInfoDisplayer;
+export default FileDetailsDisplayer;

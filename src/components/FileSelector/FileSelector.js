@@ -15,7 +15,6 @@ const FileSelector = ({ setSelectedFile }) => {
 
   return (
     <div className="file-selector">
-      <h1>Select a file</h1>
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <div className="dropzone-text">

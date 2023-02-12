@@ -3,8 +3,8 @@ import axios from "axios";
 import Result from "../Result/Result";
 import "./DiscogsSearcher.scss";
 
-const DiscogsSearcher = ({ selectedFile, tags }) => {
-  const [data, setData] = useState({});
+const DiscogsSearcher = (props) => {
+  const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -12,14 +12,14 @@ const DiscogsSearcher = ({ selectedFile, tags }) => {
 
     let keywords = "";
 
-    if (tags.title) {
-      if (tags.artist) {
-        keywords += tags.artist;
+    if (props.tags.title) {
+      if (props.tags.artist) {
+        keywords += props.tags.artist;
         keywords += " ";
       }
-      keywords += tags.title;
+      keywords += props.tags.title;
     } else {
-      keywords = selectedFile.name;
+      keywords = props.selectedFile.name;
       keywords = keywords.replace(" - ", " ");
       keywords = keywords.replace(".mp3", "");
     }
@@ -38,14 +38,24 @@ const DiscogsSearcher = ({ selectedFile, tags }) => {
       }
     };
     fetchData();
-  }, [tags]);
+  }, [props.tags]);
 
   return (
     !isLoading && (
-      <div className="results">
-        {data.results.map((result, index) => {
-          return <Result key={index} result={result} />;
-        })}
+      <div className="discogs-results">
+        <div className="results">
+          {data.results.map((result, index) => {
+            return (
+              <Result
+                key={index}
+                result={result}
+                setDisplayResults={props.setDisplayResults}
+                setDisplayAlbumDetails={props.setDisplayAlbumDetails}
+                setAlbumToDisplay={props.setAlbumToDisplay}
+              />
+            );
+          })}
+        </div>
       </div>
     )
   );
