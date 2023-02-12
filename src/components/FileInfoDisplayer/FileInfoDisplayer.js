@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./FileInfoDisplayer.scss";
+import jsmediatags from "./jsmediatags.js";
 
 const FileInfoDisplayer = (props) => {
   const [tags, setTags] = useState();
@@ -9,7 +10,7 @@ const FileInfoDisplayer = (props) => {
     if (selectedFile !== props.selectedFile) {
       setSelectedFile(props.selectedFile);
 
-      window.jsmediatags.read(props.selectedFile, {
+      jsmediatags.read(props.selectedFile, {
         onSuccess: function (result) {
           console.log(result.tags);
           props.setTags(result.tags);
