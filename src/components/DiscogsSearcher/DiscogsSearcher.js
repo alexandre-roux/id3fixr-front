@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Result from "../Result/Result";
 import "./DiscogsSearcher.scss";
+import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplayer";
 
 const DiscogsSearcher = (props) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [displayResults, setDisplayResults] = useState(true);
+  const [displayAlbumDetails, setDisplayAlbumDetails] = useState(false);
+  const [albumToDisplay, setAlbumToDisplay] = useState();
 
   useEffect(() => {
     setIsLoading(true);
@@ -43,19 +47,28 @@ const DiscogsSearcher = (props) => {
   return (
     !isLoading && (
       <div className="discogs-results">
-        <div className="results">
+        <div className={displayResults ? "results" : "results hidden"}>
           {data.results.map((result, index) => {
             return (
               <Result
                 key={index}
                 result={result}
-                setDisplayResults={props.setDisplayResults}
-                setDisplayAlbumDetails={props.setDisplayAlbumDetails}
-                setAlbumToDisplay={props.setAlbumToDisplay}
+                setDisplayResults={setDisplayResults}
+                setDisplayAlbumDetails={setDisplayAlbumDetails}
+                setAlbumToDisplay={setAlbumToDisplay}
               />
             );
           })}
         </div>
+        {albumToDisplay && (
+          <div className={displayAlbumDetails ? "" : "hidden"}>
+            <AlbumDetailsDisplayer
+              albumToDisplay={albumToDisplay}
+              setDisplayResults={setDisplayResults}
+              setDisplayAlbumDetails={setDisplayAlbumDetails}
+            />
+          </div>
+        )}
       </div>
     )
   );

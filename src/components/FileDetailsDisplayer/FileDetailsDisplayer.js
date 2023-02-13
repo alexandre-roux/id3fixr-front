@@ -13,7 +13,6 @@ const FileDetailsDisplayer = (props) => {
         if (err) throw err;
         props.setTags(result);
         setTags(result);
-        props.setDisplayResults(true);
       });
     }
   }, [props.selectedFile]);
