@@ -31,7 +31,7 @@ const FileDetailsDisplayer = (props) => {
             <p>Genre: {tags.genre}</p>
             <p>Year: {tags.year}</p>
             <p>
-              Track: {tags.track.no} of: {tags.track.of}
+              Track: {tags.track.no}/{tags.track.of}
             </p>
           </div>
           {tags.picture.length > 0 && (

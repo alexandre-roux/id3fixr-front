@@ -26,8 +26,7 @@ const AlbumDetailsDisplayer = (props) => {
           });
         }
 
-        console.log(response.data);
-        setData(response.data);
+        setData(response.data.release);
         setIsLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -36,7 +35,7 @@ const AlbumDetailsDisplayer = (props) => {
     fetchData();
   }, [props.albumToDisplay]);
 
-  function handleBackToResults(e) {
+  function handleBackToResults() {
     props.setDisplayAlbumDetails(false);
     props.setDisplayResults(true);
   }
@@ -47,8 +46,36 @@ const AlbumDetailsDisplayer = (props) => {
         <ion-icon name="arrow-back-outline" />
         Back to results
       </div>
-
-      <p>{props.albumToDisplay.id}</p>
+      {!isLoading && (
+        <>
+          <div>
+            <p>
+              Artist:{" "}
+              {data.artists.length === 1
+                ? data.artists[0].name
+                : data.artists.map((artist) => artist.name + ", ")}
+            </p>
+            <p>Album: {data.title}</p>
+            <p>Genre: {data.styles[0]}</p>
+            <p>Year: {data.year}</p>
+          </div>
+          <div>
+            <p>Tracklist (choose a track):</p>
+            <ul>
+              {data.tracklist.map((track, index) => {
+                let trackDetails = "";
+                trackDetails += index + 1;
+                trackDetails += "/";
+                trackDetails += data.tracklist.length;
+                trackDetails += " ";
+                trackDetails += track.title;
+                return <li>{trackDetails}</li>;
+              })}
+            </ul>
+          </div>
+          <img src={data.images[0].uri} alt="Album cover" />
+        </>
+      )}
     </div>
   );
 };

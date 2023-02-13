@@ -35,7 +35,7 @@ const DiscogsSearcher = (props) => {
             keywords: keywords,
           },
         });
-        setData(response.data);
+        setData(response.data.results);
         setIsLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -48,7 +48,7 @@ const DiscogsSearcher = (props) => {
     !isLoading && (
       <div className="discogs-results">
         <div className={displayResults ? "results" : "results hidden"}>
-          {data.results.map((result, index) => {
+          {data.map((result, index) => {
             return (
               <Result
                 key={index}

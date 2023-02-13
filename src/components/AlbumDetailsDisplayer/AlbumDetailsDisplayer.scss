@@ -9,4 +9,23 @@
       cursor: pointer;
     }
   }
+
+  div {
+    margin-bottom: 8px;
+  }
+
+  ul {
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+
+  li:hover {
+    cursor: pointer;
+    color: #2653D9;
+  }
+
+  img {
+    max-width: 200px;
+    max-height: 200px;
+  }
 }

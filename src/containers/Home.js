@@ -14,7 +14,7 @@ const Home = () => {
       <FileSelector setSelectedFile={setSelectedFile} />
       {selectedFile && (
         <>
-          <h1>File informations</h1>
+          <h1>File details</h1>
           <FileDetailsDisplayer selectedFile={selectedFile} setTags={setTags} />
         </>
       )}
