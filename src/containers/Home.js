@@ -7,6 +7,7 @@ import "./Home.scss";
 const Home = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [tags, setTags] = useState();
+  const [displayResults, setDisplayResults] = useState(true);
 
   return (
     <div className="home">
@@ -15,13 +16,22 @@ const Home = () => {
       {selectedFile && (
         <>
           <h1>File details</h1>
-          <FileDetailsDisplayer selectedFile={selectedFile} setTags={setTags} />
+          <FileDetailsDisplayer
+            selectedFile={selectedFile}
+            setTags={setTags}
+            setDisplayResults={setDisplayResults}
+          />
         </>
       )}
       {tags && (
         <>
           <h1>Discogs search results</h1>
-          <DiscogsSearcher selectedFile={selectedFile} tags={tags} />
+          <DiscogsSearcher
+            selectedFile={selectedFile}
+            tags={tags}
+            displayResults={displayResults}
+            setDisplayResults={setDisplayResults}
+          />
         </>
       )}
     </div>

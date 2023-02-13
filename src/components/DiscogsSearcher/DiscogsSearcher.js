@@ -7,7 +7,6 @@ import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplaye
 const DiscogsSearcher = (props) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [displayResults, setDisplayResults] = useState(true);
   const [displayAlbumDetails, setDisplayAlbumDetails] = useState(false);
   const [albumToDisplay, setAlbumToDisplay] = useState();
 
@@ -47,13 +46,13 @@ const DiscogsSearcher = (props) => {
   return (
     !isLoading && (
       <div className="discogs-results">
-        <div className={displayResults ? "results" : "results hidden"}>
+        <div className={props.displayResults ? "results" : "results hidden"}>
           {data.map((result, index) => {
             return (
               <Result
                 key={index}
                 result={result}
-                setDisplayResults={setDisplayResults}
+                setDisplayResults={props.setDisplayResults}
                 setDisplayAlbumDetails={setDisplayAlbumDetails}
                 setAlbumToDisplay={setAlbumToDisplay}
               />
@@ -64,7 +63,7 @@ const DiscogsSearcher = (props) => {
           <div className={displayAlbumDetails ? "" : "hidden"}>
             <AlbumDetailsDisplayer
               albumToDisplay={albumToDisplay}
-              setDisplayResults={setDisplayResults}
+              setDisplayResults={props.setDisplayResults}
               setDisplayAlbumDetails={setDisplayAlbumDetails}
             />
           </div>

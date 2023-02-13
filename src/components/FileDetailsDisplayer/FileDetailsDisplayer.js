@@ -12,6 +12,7 @@ const FileDetailsDisplayer = (props) => {
       window.musicmetadata(props.selectedFile, function (err, result) {
         if (err) throw err;
         props.setTags(result);
+        props.setDisplayResults(true);
         setTags(result);
       });
     }
@@ -34,7 +35,7 @@ const FileDetailsDisplayer = (props) => {
               Track: {tags.track.no}/{tags.track.of}
             </p>
           </div>
-          {tags.picture.length > 0 && (
+          {tags.picture.length > 0 ? (
             <div>
               <img
                 src={`data:${tags.picture[0].format};base64,${btoa(
@@ -44,6 +45,13 @@ const FileDetailsDisplayer = (props) => {
                   )
                 )}`}
                 alt="Album cover"
+              />
+            </div>
+          ) : (
+            <div>
+              <img
+                src="https://www.chordie.com/images/no-cover.png"
+                alt="No album cover"
               />
             </div>
           )}
