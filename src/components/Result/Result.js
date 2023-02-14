@@ -10,11 +10,11 @@ const Result = (props) => {
     title += " (Master release)";
   }
 
-  function handleSelect(e) {
+  const handleSelect = () => {
     props.setAlbumToDisplay(props.result);
     props.setDisplayResults(false);
     props.setDisplayAlbumDetails(true);
-  }
+  };
 
   return (
     <div className="result" onClick={handleSelect}>

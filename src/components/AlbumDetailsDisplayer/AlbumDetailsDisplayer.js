@@ -35,10 +35,10 @@ const AlbumDetailsDisplayer = (props) => {
     fetchData();
   }, [props.albumToDisplay]);
 
-  function handleBackToResults() {
+  const handleBackToResults = () => {
     props.setDisplayAlbumDetails(false);
     props.setDisplayResults(true);
-  }
+  };
 
   return (
     <div className="album-details">
