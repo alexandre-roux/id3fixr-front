@@ -65,6 +65,13 @@ const DiscogsSearcher = (props) => {
               albumToDisplay={albumToDisplay}
               setDisplayResults={props.setDisplayResults}
               setDisplayAlbumDetails={setDisplayAlbumDetails}
+              setTitle={props.setTitle}
+              setArtist={props.setArtist}
+              setAlbum={props.setAlbum}
+              setGenre={props.setGenre}
+              setYear={props.setYear}
+              setTrack={props.setTrack}
+              setImage={props.setImage}
             />
           </div>
         )}

@@ -4,13 +4,6 @@ import "./FileDetailsDisplayer.scss";
 const FileDetailsDisplayer = (props) => {
   const [tags, setTags] = useState();
   const [selectedFile, setSelectedFile] = useState();
-  const [title, setTitle] = useState();
-  const [artist, setArtist] = useState();
-  const [album, setAlbum] = useState();
-  const [genre, setGenre] = useState();
-  const [year, setYear] = useState();
-  const [track, setTrack] = useState();
-  const [image, setImage] = useState("https://www.chordie.com/images/no-cover.png")
 
   useEffect(() => {
     if (selectedFile !== props.selectedFile) {
@@ -83,39 +76,39 @@ const FileDetailsDisplayer = (props) => {
                 <input
                   className="wide"
                   placeholder="Title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={props.title}
+                  onChange={(e) => props.setTitle(e.target.value)}
                 />
                 <input
                   className="wide"
                   placeholder="Artist"
-                  value={artist}
-                  onChange={(e) => setArtist(e.target.value)}
+                  value={props.artist}
+                  onChange={(e) => props.setArtist(e.target.value)}
                 />
                 <input
                   className="wide"
                   placeholder="Album"
-                  value={album}
-                  onChange={(e) => setAlbum(e.target.value)}
+                  value={props.album}
+                  onChange={(e) => props.setAlbum(e.target.value)}
                 />
                 <input
                   placeholder="Genre"
-                  value={genre}
-                  onChange={(e) => setGenre(e.target.value)}
+                  value={props.genre}
+                  onChange={(e) => props.setGenre(e.target.value)}
                 />
                 <input
                   placeholder="Year"
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
+                  value={props.year}
+                  onChange={(e) => props.setYear(e.target.value)}
                 />
                 <input
                   placeholder="Track"
-                  value={track}
-                  onChange={(e) => setTrack(e.target.value)}
+                  value={props.track}
+                  onChange={(e) => props.setTrack(e.target.value)}
                 />
               </div>
               <div className="album-cover">
-                <img src={image} alt="New album cover"/>
+                <img src={props.image} alt="New album cover" />
               </div>
             </div>
           </div>

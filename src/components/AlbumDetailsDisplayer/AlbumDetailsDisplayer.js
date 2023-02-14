@@ -5,6 +5,7 @@ import axios from "axios";
 const AlbumDetailsDisplayer = (props) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [artist, setArtist] = useState();
 
   useEffect(() => {
     setIsLoading(true);
@@ -27,6 +28,13 @@ const AlbumDetailsDisplayer = (props) => {
         }
 
         setData(response.data.release);
+        if (response.data.release.artists.length === 1) {
+          setArtist(response.data.release.artists[0].name);
+        } else {
+          setArtist(
+            response.data.release.artists.map((artist) => artist.name + ", ")
+          );
+        }
         setIsLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -40,6 +48,17 @@ const AlbumDetailsDisplayer = (props) => {
     props.setDisplayResults(true);
   };
 
+  const handleTrackSelected = (track, trackNumber) => {
+    console.log("handleTrackSelected trackNumber=" + trackNumber);
+    props.setTitle(track.title);
+    props.setArtist(artist);
+    props.setAlbum(data.title);
+    props.setGenre(data.styles[0]);
+    props.setYear(data.year);
+    props.setTrack(trackNumber);
+    props.setImage(data.images[0].uri);
+  };
+
   return (
     <div className="album-details">
       <div className="back-to-results" onClick={handleBackToResults}>
@@ -49,27 +68,23 @@ const AlbumDetailsDisplayer = (props) => {
       {!isLoading && (
         <>
           <div>
-            <p>
-              Artist:{" "}
-              {data.artists.length === 1
-                ? data.artists[0].name
-                : data.artists.map((artist) => artist.name + ", ")}
-            </p>
+            <p>Artist: {artist}</p>
             <p>Album: {data.title}</p>
             <p>Genre: {data.styles[0]}</p>
             <p>Year: {data.year}</p>
           </div>
           <div>
-            <p>Tracklist (choose a track):</p>
+            <p>Tracklist (select a track):</p>
             <ul>
               {data.tracklist.map((track, index) => {
-                let trackDetails = "";
-                trackDetails += index + 1;
-                trackDetails += "/";
-                trackDetails += data.tracklist.length;
-                trackDetails += " ";
-                trackDetails += track.title;
-                return <li>{trackDetails}</li>;
+                const trackNumber = index + 1 + "/" + data.tracklist.length;
+                const trackDetails =
+                  trackNumber + " " + track.position + " " + track.title;
+                return (
+                  <li key={index} onClick={() => handleTrackSelected(track, trackNumber)}>
+                    {trackDetails}
+                  </li>
+                );
               })}
             </ul>
           </div>
