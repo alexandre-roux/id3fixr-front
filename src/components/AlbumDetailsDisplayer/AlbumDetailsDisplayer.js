@@ -28,13 +28,15 @@ const AlbumDetailsDisplayer = (props) => {
         }
 
         setData(response.data.release);
-        if (response.data.release.artists.length === 1) {
-          setArtist(response.data.release.artists[0].name);
-        } else {
-          setArtist(
-            response.data.release.artists.map((artist) => artist.name + ", ")
-          );
-        }
+        setArtist(
+          response.data.release.artists.map((artist, index) => {
+            let result = artist.name;
+            if (index < response.data.release.artists.length - 1) {
+              result += ", ";
+            }
+            return result;
+          })
+        );
         setIsLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -49,7 +51,6 @@ const AlbumDetailsDisplayer = (props) => {
   };
 
   const handleTrackSelected = (track, trackNumber) => {
-    console.log("handleTrackSelected trackNumber=" + trackNumber);
     props.setTitle(track.title);
     props.setArtist(artist);
     props.setAlbum(data.title);
@@ -57,6 +58,10 @@ const AlbumDetailsDisplayer = (props) => {
     props.setYear(data.year);
     props.setTrack(trackNumber);
     props.setImage(data.images[0].uri);
+  };
+
+  const handleGenreSelected = (genre) => {
+    props.setGenre(genre);
   };
 
   return (
@@ -70,7 +75,20 @@ const AlbumDetailsDisplayer = (props) => {
           <div>
             <p>Artist: {artist}</p>
             <p>Album: {data.title}</p>
-            <p>Genre: {data.styles[0]}</p>
+            <p>
+              Genre:{" "}
+              {data.styles.map((genre, index) => {
+                let result = genre;
+                if (index < data.styles.length - 1) {
+                  result += ", ";
+                }
+                return (
+                  <span key={index} onClick={() => handleGenreSelected(genre)}>
+                    {result}
+                  </span>
+                );
+              })}
+            </p>
             <p>Year: {data.year}</p>
           </div>
           <div>
@@ -81,7 +99,10 @@ const AlbumDetailsDisplayer = (props) => {
                 const trackDetails =
                   trackNumber + " " + track.position + " " + track.title;
                 return (
-                  <li key={index} onClick={() => handleTrackSelected(track, trackNumber)}>
+                  <li
+                    key={index}
+                    onClick={() => handleTrackSelected(track, trackNumber)}
+                  >
                     {trackDetails}
                   </li>
                 );
