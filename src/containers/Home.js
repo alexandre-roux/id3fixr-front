@@ -21,7 +21,16 @@ const Home = () => {
   return (
     <div className="home">
       <h1>Select a file</h1>
-      <FileSelector setSelectedFile={setSelectedFile} />
+      <FileSelector
+        setSelectedFile={setSelectedFile}
+        setTitle={setTitle}
+        setArtist={setArtist}
+        setAlbum={setAlbum}
+        setGenre={setGenre}
+        setYear={setYear}
+        setTrack={setTrack}
+        setImage={setImage}
+      />
       {selectedFile && (
         <>
           <h1>File details</h1>
