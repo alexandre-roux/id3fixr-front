@@ -35,6 +35,7 @@ const DiscogsSearcher = (props) => {
           },
         });
         setData(response.data.results);
+        setDisplayAlbumDetails(false);
         setIsLoading(false);
       } catch (error) {
         console.log(error.response);
