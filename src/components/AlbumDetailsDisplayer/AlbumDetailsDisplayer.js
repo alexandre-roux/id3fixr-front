@@ -64,6 +64,10 @@ const AlbumDetailsDisplayer = (props) => {
     props.setGenre(genre);
   };
 
+  const handleCoverSelected = (cover) => {
+    props.setImage(cover);
+  };
+
   return (
     <div className="album-details">
       <div className="back-to-results" onClick={handleBackToResults}>
@@ -109,7 +113,18 @@ const AlbumDetailsDisplayer = (props) => {
               })}
             </ul>
           </div>
-          <img src={data.images[0].uri} alt="Album cover" />
+          <div className="album-covers">
+            {data.images.map((image, index) => {
+              return (
+                <img
+                  key={index}
+                  src={image.uri}
+                  alt="Album cover"
+                  onClick={() => handleCoverSelected(image.uri)}
+                />
+              );
+            })}
+          </div>
         </>
       )}
     </div>

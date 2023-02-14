@@ -33,5 +33,14 @@
   img {
     max-width: 200px;
     max-height: 200px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .album-covers {
+    display: flex;
+    gap: 10px
   }
 }
