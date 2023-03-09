@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./FileDetailsDisplayer.scss";
 import ID3Writer from "browser-id3-writer";
 import { saveAs } from "file-saver";
+import axios from "axios";
 
 const FileDetailsDisplayer = (props) => {
   const [tags, setTags] = useState();
@@ -24,6 +25,8 @@ const FileDetailsDisplayer = (props) => {
   const writeFile = () => {
     const reader = new FileReader();
     reader.onload = function () {
+      console.log(coverArrayBuffer);
+
       const arrayBuffer = reader.result;
       // arrayBuffer of song or empty arrayBuffer if you just want only id3 tag without song
       const writer = new ID3Writer(arrayBuffer);
@@ -54,34 +57,25 @@ const FileDetailsDisplayer = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // // Create an ArrayBuffer of the cover image
-    // if (props.image !== "") {
-    //   try {
-    //     const response = await axios.get("http://localhost:3100/image", {
-    //       params: {
-    //         imageurl: props.image,
-    //       },
-    //       responseType: "arraybuffer"
-    //     });
-    //
-    //     setCoverArrayBuffer(response);
-    //     writeFile();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // } else {
-    //   writeFile();
-    // }
+    // Create an ArrayBuffer of the cover image
+    if (props.image !== "") {
+      try {
+        const response = await axios.get("http://localhost:3100/image", {
+          params: {
+            imageurl: props.image,
+          },
+          responseType: "arraybuffer",
+        });
 
-    const coverFile = new File(["./cover.jpg"], "cover");
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      setCoverArrayBuffer(new Uint8Array(event.target.result));
+        const uint8Array = new Uint8Array(response.data);
+        setCoverArrayBuffer(uint8Array);
+        writeFile();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
       writeFile();
-    };
-
-    reader.readAsArrayBuffer(coverFile);
+    }
   };
 
   return (
