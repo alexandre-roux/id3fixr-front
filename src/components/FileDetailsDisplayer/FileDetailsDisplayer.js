@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { Buffer } from "buffer";
 import "./FileDetailsDisplayer.scss";
 
 const FileDetailsDisplayer = (props) => {
   const [tags, setTags] = useState();
   const [selectedFile, setSelectedFile] = useState();
 
+  const readFileAsBuffer = (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const buffer = Buffer.from(reader.result);
+      console.log(buffer);
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
   useEffect(() => {
     if (selectedFile !== props.selectedFile) {
       setSelectedFile(props.selectedFile);
-
-      window.musicmetadata(props.selectedFile, function (err, result) {
-        if (err) throw err;
-        props.setTags(result);
-        props.setDisplayResults(true);
-        setTags(result);
-      });
+      readFileAsBuffer(props.selectedFile);
     }
   }, [props.selectedFile]);
 
