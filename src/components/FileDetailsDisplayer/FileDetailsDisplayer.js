@@ -25,8 +25,6 @@ const FileDetailsDisplayer = (props) => {
   const writeFile = () => {
     const reader = new FileReader();
     reader.onload = function () {
-      console.log(coverArrayBuffer);
-
       const arrayBuffer = reader.result;
       // arrayBuffer of song or empty arrayBuffer if you just want only id3 tag without song
       const writer = new ID3Writer(arrayBuffer);
@@ -69,6 +67,7 @@ const FileDetailsDisplayer = (props) => {
 
         const uint8Array = new Uint8Array(response.data);
         setCoverArrayBuffer(uint8Array);
+        console.log(coverArrayBuffer);
         writeFile();
       } catch (error) {
         console.log(error);
