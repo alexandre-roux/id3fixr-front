@@ -18,7 +18,7 @@ const FileSelector = (props) => {
       props.setGenre("");
       props.setYear("");
       props.setTrack("");
-      props.setImage("https://www.chordie.com/images/no-cover.png");
+      props.setImage("");
     },
   });
 

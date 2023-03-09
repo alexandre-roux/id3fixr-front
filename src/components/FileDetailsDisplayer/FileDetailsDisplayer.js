@@ -108,7 +108,14 @@ const FileDetailsDisplayer = (props) => {
                 />
               </div>
               <div className="album-cover">
-                <img src={props.image} alt="New album cover" />
+                <img
+                  src={
+                    props.image === ""
+                      ? "https://www.chordie.com/images/no-cover.png"
+                      : props.image
+                  }
+                  alt="New album cover"
+                />
               </div>
             </div>
           </div>
