@@ -100,8 +100,9 @@ const AlbumDetailsDisplayer = (props) => {
             <ul>
               {data.tracklist.map((track, index) => {
                 const trackNumber = index + 1 + "/" + data.tracklist.length;
-                const trackDetails =
-                  trackNumber + " " + track.position + " " + track.title;
+                let trackDetails = trackNumber;
+                if (isNaN(track.position)) trackDetails += " " + track.position;
+                trackDetails += " " + track.title;
                 return (
                   <li
                     key={index}
