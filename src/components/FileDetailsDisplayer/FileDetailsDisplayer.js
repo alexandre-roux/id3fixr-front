@@ -19,7 +19,7 @@ const FileDetailsDisplayer = (props) => {
         setTags(result);
       });
     }
-  }, [props.selectedFile]);
+  }, [props]);
 
   const writeFile = (coverArrayBuffer) => {
     const reader = new FileReader();
