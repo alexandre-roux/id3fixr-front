@@ -22,6 +22,8 @@ const FileDetailsDisplayer = (props) => {
   }, [props.selectedFile]);
 
   const writeFile = (coverArrayBuffer) => {
+    console.log(coverArrayBuffer);
+
     const reader = new FileReader();
     reader.onload = function () {
       const arrayBuffer = reader.result;
