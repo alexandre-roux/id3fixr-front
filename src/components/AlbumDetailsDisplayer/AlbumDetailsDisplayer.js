@@ -14,17 +14,23 @@ const AlbumDetailsDisplayer = (props) => {
       try {
         let response;
         if (props.albumToDisplay.id === props.albumToDisplay.master_id) {
-          response = await axios.get("http://localhost:3100/master", {
-            params: {
-              id: props.albumToDisplay.id,
-            },
-          });
+          response = await axios.get(
+            "https://mp3-tags-corrector.herokuapp.com/master",
+            {
+              params: {
+                id: props.albumToDisplay.id,
+              },
+            }
+          );
         } else {
-          response = await axios.get("http://localhost:3100/release", {
-            params: {
-              id: props.albumToDisplay.id,
-            },
-          });
+          response = await axios.get(
+            "https://mp3-tags-corrector.herokuapp.com/release",
+            {
+              params: {
+                id: props.albumToDisplay.id,
+              },
+            }
+          );
         }
 
         setData(response.data.release);
@@ -76,6 +82,14 @@ const AlbumDetailsDisplayer = (props) => {
       </div>
       {!isLoading && (
         <>
+          <div>
+            <p>
+              Release page:{" "}
+              <a href={data.uri} target="_blank">
+                {data.uri}
+              </a>
+            </p>
+          </div>
           <div>
             <p>Artist: {artist}</p>
             <p>Album: {data.title}</p>

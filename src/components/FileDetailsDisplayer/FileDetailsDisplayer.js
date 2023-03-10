@@ -57,12 +57,15 @@ const FileDetailsDisplayer = (props) => {
     // Create an ArrayBuffer of the cover image
     if (props.image !== "") {
       try {
-        const response = await axios.get("http://localhost:3100/image", {
-          params: {
-            imageurl: props.image,
-          },
-          responseType: "arraybuffer",
-        });
+        const response = await axios.get(
+          "https://mp3-tags-corrector.herokuapp.com/image",
+          {
+            params: {
+              imageurl: props.image,
+            },
+            responseType: "arraybuffer",
+          }
+        );
 
         const uint8Array = new Uint8Array(response.data);
         writeFile(uint8Array);

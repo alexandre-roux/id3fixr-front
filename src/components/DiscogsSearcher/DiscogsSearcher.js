@@ -29,11 +29,14 @@ const DiscogsSearcher = (props) => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3100/search", {
-          params: {
-            keywords: keywords,
-          },
-        });
+        const response = await axios.get(
+          "https://mp3-tags-corrector.herokuapp.com/search",
+          {
+            params: {
+              keywords: keywords,
+            },
+          }
+        );
         setData(response.data.results);
         setDisplayAlbumDetails(false);
         setIsLoading(false);
