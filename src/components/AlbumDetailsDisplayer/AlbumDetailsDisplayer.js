@@ -85,7 +85,7 @@ const AlbumDetailsDisplayer = (props) => {
           <div>
             <p>
               Release page:{" "}
-              <a href={data.uri} target="_blank" rel="noreferrer">
+              <a href={data.uri} target="_blank">
                 {data.uri}
               </a>
             </p>
