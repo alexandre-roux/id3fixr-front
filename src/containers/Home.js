@@ -36,6 +36,7 @@ const Home = () => {
           <h1>File details</h1>
           <FileDetailsDisplayer
             selectedFile={selectedFile}
+            setSelectedFile={setSelectedFile}
             setTags={setTags}
             setDisplayResults={setDisplayResults}
             title={title}

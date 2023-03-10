@@ -7,7 +7,6 @@ import axios from "axios";
 const FileDetailsDisplayer = (props) => {
   const [tags, setTags] = useState();
   const [selectedFile, setSelectedFile] = useState();
-  const [coverArrayBuffer, setCoverArrayBuffer] = useState();
 
   useEffect(() => {
     if (selectedFile !== props.selectedFile) {
@@ -22,27 +21,28 @@ const FileDetailsDisplayer = (props) => {
     }
   }, [props.selectedFile]);
 
-  const writeFile = () => {
+  const writeFile = (coverArrayBuffer) => {
     const reader = new FileReader();
     reader.onload = function () {
       const arrayBuffer = reader.result;
       // arrayBuffer of song or empty arrayBuffer if you just want only id3 tag without song
       const writer = new ID3Writer(arrayBuffer);
-      writer
-        .setFrame("TIT2", props.title)
-        .setFrame("TPE1", props.artist)
-        .setFrame("TALB", props.album)
-        .setFrame("TYER", props.year)
-        .setFrame("TRCK", props.track)
-        .setFrame("TCON", [props.genre])
-        .setFrame("APIC", {
+      if (props.title) writer.setFrame("TIT2", props.title);
+      if (props.artist) writer.setFrame("TPE1", props.artist);
+      if (props.album) writer.setFrame("TALB", props.album);
+      if (props.year) writer.setFrame("TYER", props.year);
+      if (props.track) writer.setFrame("TRCK", props.track);
+      if (props.genre) writer.setFrame("TCON", [props.genre]);
+      if (arrayBuffer)
+        writer.setFrame("APIC", {
           type: 3,
           data: coverArrayBuffer,
           description: "Album cover",
         });
       writer.addTag();
       const blob = writer.getBlob();
-      saveAs(blob, "song with tags.mp3");
+      saveAs(blob, props.selectedFile.name);
+      props.setSelectedFile(new File([blob], props.selectedFile.name));
     };
     reader.onerror = function () {
       // handle error
@@ -51,7 +51,6 @@ const FileDetailsDisplayer = (props) => {
     reader.readAsArrayBuffer(selectedFile);
   };
 
-  //TODO check fields
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -66,9 +65,7 @@ const FileDetailsDisplayer = (props) => {
         });
 
         const uint8Array = new Uint8Array(response.data);
-        setCoverArrayBuffer(uint8Array);
-        console.log(coverArrayBuffer);
-        writeFile();
+        writeFile(uint8Array);
       } catch (error) {
         console.log(error);
       }
