@@ -12,12 +12,15 @@ const FileDetailsDisplayer = (props) => {
     if (selectedFile !== props.selectedFile) {
       setSelectedFile(props.selectedFile);
 
-      window.musicmetadata(props.selectedFile, function (err, result) {
-        if (err) throw err;
-        props.setTags(result);
-        props.setDisplayResults(true);
-        setTags(result);
-      });
+      try {
+        window.musicmetadata(props.selectedFile, function (error, result) {
+          props.setTags(result);
+          props.setDisplayResults(true);
+          setTags(result);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [props, selectedFile]);
 
