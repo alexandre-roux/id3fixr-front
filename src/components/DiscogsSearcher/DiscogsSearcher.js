@@ -45,7 +45,7 @@ const DiscogsSearcher = (props) => {
       }
     };
     fetchData();
-  }, [props.tags]);
+  }, [props.tags, props.selectedFile.name]);
 
   return (
     !isLoading && (
