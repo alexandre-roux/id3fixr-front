@@ -31,7 +31,7 @@ const FileDetailsDisplayer = (props) => {
       // arrayBuffer of song or empty arrayBuffer if you just want only id3 tag without song
       const writer = new ID3Writer(arrayBuffer);
       if (props.title) writer.setFrame("TIT2", props.title);
-      if (props.artist) writer.setFrame("TPE1", props.artist);
+      if (props.artist) writer.setFrame("TPE1", [props.artist]);
       if (props.album) writer.setFrame("TALB", props.album);
       if (props.year) writer.setFrame("TYER", props.year);
       if (props.track) writer.setFrame("TRCK", props.track);
