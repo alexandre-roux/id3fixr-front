@@ -23,9 +23,10 @@ const DiscogsSearcher = (props) => {
       keywords += props.tags.title;
     } else {
       keywords = props.selectedFile.name;
-      keywords = keywords.replace(" - ", " ");
+      keywords = keywords.replaceAll(" - ", " ");
       keywords = keywords.replace(".mp3", "");
     }
+    console.log(keywords);
 
     const fetchData = async () => {
       try {
