@@ -25,6 +25,7 @@ const DiscogsSearcher = (props) => {
       keywords = props.selectedFile.name;
       keywords = keywords.replaceAll(" - ", " ");
       keywords = keywords.replace(".mp3", "");
+      keywords = keywords.replace("feat.", "");
       keywords = keywords.replace(/\[.*?\]/g, "");
       keywords = keywords.replace(/\(.*?\)/g, "");
     }
@@ -33,8 +34,8 @@ const DiscogsSearcher = (props) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          // "https://mp3-tags-corrector.onrender.com/search",
-          "http://localhost:3100/search",
+          "https://mp3-tags-corrector.onrender.com/search",
+          // "http://localhost:3100/search",
           {
             params: {
               keywords: keywords,
