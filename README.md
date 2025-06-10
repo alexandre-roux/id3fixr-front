@@ -8,7 +8,7 @@ missing.
 
 ## Live Demo
 
-Try out the application here: [ID3 Tag Corrector Live Demo](https://mp3-tags-corrector.netlify.net/)
+Try out the application here: [ID3 Tag Corrector Live Demo](https://mp3-tags-corrector.netlify.app/)
 
 ## Features
 
