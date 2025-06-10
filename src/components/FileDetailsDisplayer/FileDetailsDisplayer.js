@@ -14,9 +14,9 @@ const FileDetailsDisplayer = (props) => {
 
             try {
                 window.musicmetadata(props.selectedFile, function (error, result) {
+                    setTags(result);
                     props.setTags(result);
                     props.setDisplayResults(true);
-                    setTags(result);
                 });
             } catch (error) {
                 console.log(error);
