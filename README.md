@@ -41,8 +41,8 @@ Ensure you have the following installed:
 Clone the repository and install dependencies:
 
 ```bash
-git clone <your-repo-url>
-cd id3-tag-corrector
+git clone git@github.com:alexandre-roux/mp3-tags-corrector-front.git
+cd mp3-tags-corrector-front
 yarn install
 ```
 
