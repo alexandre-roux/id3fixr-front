@@ -13,15 +13,9 @@ const DiscogsSearcher = (props) => {
     useEffect(() => {
         setIsLoading(true);
 
-        let keywords = "";
+        let keywords = props.tags.artist + " " + props.tags.title;
 
-        if (props.tags.title) {
-            if (props.tags.artist) {
-                keywords += props.tags.artist;
-                keywords += " ";
-            }
-            keywords += props.tags.title;
-        } else {
+        if (keywords === " ") {
             keywords = props.selectedFile.name;
             keywords = keywords.replaceAll(" - ", " ");
             keywords = keywords.replace(".mp3", "");
@@ -29,7 +23,7 @@ const DiscogsSearcher = (props) => {
             keywords = keywords.replace(/\[.*?\]/g, "");
             keywords = keywords.replace(/\(.*?\)/g, "");
         }
-        console.log(keywords);
+        console.log("Searching Discogs DB with keywords: " + keywords);
 
         const fetchData = async () => {
             try {
@@ -42,6 +36,7 @@ const DiscogsSearcher = (props) => {
                         },
                     }
                 );
+                console.log("Discogs API response:");
                 console.log(response);
                 setData(response.data.results);
                 setDisplayAlbumDetails(false);
@@ -57,8 +52,10 @@ const DiscogsSearcher = (props) => {
         !isLoading && (
             <div className="discogs-results">
                 <div className={props.displayResults ? "results" : "results hidden"}>
-                    {data.map((result, index) => {
-                        return (
+                    {data.length === 0 ? (
+                        <p>No results found.</p>
+                    ) : (
+                        data.map((result, index) => (
                             <Result
                                 key={index}
                                 result={result}
@@ -66,8 +63,8 @@ const DiscogsSearcher = (props) => {
                                 setDisplayAlbumDetails={setDisplayAlbumDetails}
                                 setAlbumToDisplay={setAlbumToDisplay}
                             />
-                        );
-                    })}
+                        ))
+                    )}
                 </div>
                 {albumToDisplay && (
                     <div className={displayAlbumDetails ? "" : "hidden"}>

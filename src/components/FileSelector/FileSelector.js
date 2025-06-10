@@ -11,6 +11,7 @@ const FileSelector = (props) => {
             "audio/mpeg": [],
         },
         onDrop: (acceptedFiles) => {
+            console.log("Selected file:", acceptedFiles[0].path);
             props.setSelectedFile(acceptedFiles[0]);
             props.setTitle("");
             props.setArtist("");
