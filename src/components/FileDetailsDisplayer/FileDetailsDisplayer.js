@@ -25,6 +25,7 @@ const FileDetailsDisplayer = (props) => {
     }, [props, selectedFile]);
 
     const writeFile = (coverArrayBuffer) => {
+        console.log("Creating file.")
         const reader = new FileReader();
         reader.onload = function () {
             const arrayBuffer = reader.result;
@@ -44,11 +45,10 @@ const FileDetailsDisplayer = (props) => {
                 });
             writer.addTag();
             const blob = writer.getBlob();
+            console.log("File created.");
             saveAs(blob, props.selectedFile.name);
-            props.setSelectedFile(new File([blob], props.selectedFile.name));
         };
         reader.onerror = function () {
-            // handle error
             console.error("Reader error", reader.error);
         };
         reader.readAsArrayBuffer(selectedFile);
