@@ -6,23 +6,23 @@ import axios from "axios";
 
 const FileDetailsDisplayer = (props) => {
     const [tags, setTags] = useState();
-    const [selectedFile, setSelectedFile] = useState();
 
     useEffect(() => {
-        if (selectedFile !== props.selectedFile) {
-            setSelectedFile(props.selectedFile);
-
-            try {
-                window.musicmetadata(props.selectedFile, function (error, result) {
-                    setTags(result);
-                    props.setTags(result);
-                    props.setDisplayResults(true);
-                });
-            } catch (error) {
-                console.log(error);
-            }
+        if (!props.selectedFile) return;
+        try {
+            window.musicmetadata(props.selectedFile, function (error, result) {
+                if (error) {
+                    console.error("Error reading file metadata:", error);
+                    return;
+                }
+                setTags(result);
+                props.setTags(result);
+                props.setDisplayResults(true);
+            });
+        } catch (error) {
+            console.error(error);
         }
-    }, [props, selectedFile]);
+    }, [props.selectedFile]);
 
     const writeFile = (coverArrayBuffer) => {
         console.log("Creating file.")
@@ -51,7 +51,7 @@ const FileDetailsDisplayer = (props) => {
         reader.onerror = function () {
             console.error("Reader error", reader.error);
         };
-        reader.readAsArrayBuffer(selectedFile);
+        reader.readAsArrayBuffer(props.selectedFile);
     };
 
     const handleSubmit = async (e) => {
