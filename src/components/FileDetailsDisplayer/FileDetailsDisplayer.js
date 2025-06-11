@@ -49,7 +49,7 @@ const FileDetailsDisplayer = (props) => {
             saveAs(blob, props.selectedFile.name);
         };
         reader.onerror = function () {
-            console.error("Reader error", reader.error);
+            console.error("Reader error:", reader.error);
         };
         reader.readAsArrayBuffer(props.selectedFile);
     };
@@ -58,7 +58,7 @@ const FileDetailsDisplayer = (props) => {
         e.preventDefault();
 
         // Create an ArrayBuffer of the cover image
-        if (props.image !== "") {
+        if (props.image) {
             try {
                 const response = await axios.get(
                     "https://mp3-tags-corrector.onrender.com/image",
