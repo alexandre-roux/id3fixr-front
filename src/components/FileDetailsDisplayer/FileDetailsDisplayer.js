@@ -61,19 +61,15 @@ const FileDetailsDisplayer = (props) => {
         if (props.image) {
             try {
                 const response = await axios.get(
-                    "https://mp3-tags-corrector.onrender.com/image",
+                    process.env.API_URL + "/image",
                     {
-                        params: {
-                            imageurl: props.image,
-                        },
+                        params: {imageurl: props.image},
                         responseType: "arraybuffer",
                     }
                 );
-
-                const uint8Array = new Uint8Array(response.data);
-                writeFile(uint8Array);
+                await writeFile(new Uint8Array(response.data));
             } catch (error) {
-                console.log(error);
+                console.error("Error while creating ArrayBuffer for image:", error);
             }
         } else {
             writeFile();
