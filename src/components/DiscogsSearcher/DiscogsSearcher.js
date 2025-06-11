@@ -36,12 +36,19 @@ const DiscogsSearcher = (props) => {
                         },
                     }
                 );
-                console.log("Discogs API response:");
-                console.log(response);
-                setData(response.data.results);
-                setDisplayAlbumDetails(false);
-                setIsLoading(false);
+                if (isLoading) {
+                    console.log("Discogs API response:");
+                    console.log(response);
+                    setData(response.data.results);
+                    setDisplayAlbumDetails(false);
+                    setIsLoading(false);
+                }
             } catch (error) {
+                if (isLoading) {
+                    console.error("Error fetching data from Discogs API", error);
+                    setData([]);
+                    setIsLoading(false);
+                }
                 console.log(error.response);
             }
         };
@@ -49,7 +56,9 @@ const DiscogsSearcher = (props) => {
     }, [props.tags, props.selectedFile.name]);
 
     return (
-        !isLoading && (
+        isLoading ? (
+            <p>Loading results...</p>
+        ) : (
             <div className="discogs-results">
                 <div className={props.displayResults ? "results" : "results hidden"}>
                     {data.length === 0 ? (
