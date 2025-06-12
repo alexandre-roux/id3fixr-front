@@ -10,14 +10,13 @@ missing.
 
 Try out the application here: [ID3 Tag Corrector Live Demo](https://mp3-tags-corrector.netlify.app/)
 
-## Features
+## How it works
 
-- Select an MP3 file for processing
-- Automatically search for metadata using the **Discogs API**
-- Display a list of search results
-- Allow users to select the correct track
-- Update ID3 tags with accurate information
-- Option to save a corrected version of the file
+1. Select a MP3 file for processing
+2. The Discogs database is queried and a list of results is displayed
+3. Select the result corresponding to the track
+4. Tags are automatically updated with the right values which can also be changed manually
+5. Save the copy of the file with the corrected tags
 
 ## Technology Stack
 
