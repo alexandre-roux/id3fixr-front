@@ -44,7 +44,7 @@ const FileDetailsDisplayer = () => {
         } catch (error) {
             console.error(error);
         }
-    }, [selectedFile, setTags, setDisplayResults]);
+    }, [selectedFile]);
 
     const writeFile = (coverArrayBuffer) => {
         console.log("Creating file.")

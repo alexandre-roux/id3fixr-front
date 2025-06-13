@@ -35,7 +35,7 @@ const DiscogsSearcher = () => {
                     // "http://localhost:3100/search",
                     {
                         params: {
-                            keywords: {keywords},
+                            keywords: keywords,
                         },
                     }
                 );
@@ -56,7 +56,7 @@ const DiscogsSearcher = () => {
         };
         console.log("Searching Discogs DB with keywords: " + keywords);
         fetchData();
-    }, [tags, selectedFile.name]);
+    }, [selectedFile]);
 
     return (
         isLoading ? (
