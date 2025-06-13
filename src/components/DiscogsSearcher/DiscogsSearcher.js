@@ -3,27 +3,30 @@ import axios from "axios";
 import Result from "../Result/Result";
 import "./DiscogsSearcher.scss";
 import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplayer";
+import {useMetadata} from "../../context/MetadataContext";
 
-const DiscogsSearcher = (props) => {
+const DiscogsSearcher = () => {
+    const {state, updateMetadata, setDisplayResults} = useMetadata();
+    const {tags, selectedFile, displayResults} = state;
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [displayAlbumDetails, setDisplayAlbumDetails] = useState(false);
     const [albumToDisplay, setAlbumToDisplay] = useState();
 
     useEffect(() => {
+        if (!tags || !selectedFile) return;
         setIsLoading(true);
 
-        let keywords = props.tags.artist + " " + props.tags.title;
+        let keywords = tags.artist + " " + tags.title;
 
-        if (keywords === " ") {
-            keywords = props.selectedFile.name;
+        if (keywords.trim() === "") {
+            keywords = selectedFile.name;
             keywords = keywords.replaceAll(" - ", " ");
             keywords = keywords.replace(".mp3", "");
             keywords = keywords.replace("feat.", "");
             keywords = keywords.replace(/\[.*?\]/g, "");
             keywords = keywords.replace(/\(.*?\)/g, "");
         }
-        console.log("Searching Discogs DB with keywords: " + keywords);
 
         const fetchData = async () => {
             try {
@@ -32,7 +35,7 @@ const DiscogsSearcher = (props) => {
                     // "http://localhost:3100/search",
                     {
                         params: {
-                            keywords: keywords,
+                            keywords: {keywords},
                         },
                     }
                 );
@@ -45,22 +48,22 @@ const DiscogsSearcher = (props) => {
                 }
             } catch (error) {
                 if (isLoading) {
-                    console.error("Error fetching data from Discogs API", error);
+                    console.error("Error fetching data from Discogs API:", error);
                     setData([]);
                     setIsLoading(false);
                 }
-                console.log(error.response);
             }
         };
+        console.log("Searching Discogs DB with keywords: " + keywords);
         fetchData();
-    }, [props.tags, props.selectedFile.name]);
+    }, [tags, selectedFile.name]);
 
     return (
         isLoading ? (
             <p>Loading results...</p>
         ) : (
             <div className="discogs-results">
-                <div className={props.displayResults ? "results" : "results hidden"}>
+                <div className={displayResults ? "results" : "results hidden"}>
                     {data.length === 0 ? (
                         <p>No results found.</p>
                     ) : (
@@ -68,7 +71,7 @@ const DiscogsSearcher = (props) => {
                             <Result
                                 key={index}
                                 result={result}
-                                setDisplayResults={props.setDisplayResults}
+                                setDisplayResults={setDisplayResults}
                                 setDisplayAlbumDetails={setDisplayAlbumDetails}
                                 setAlbumToDisplay={setAlbumToDisplay}
                             />
@@ -79,15 +82,9 @@ const DiscogsSearcher = (props) => {
                     <div className={displayAlbumDetails ? "" : "hidden"}>
                         <AlbumDetailsDisplayer
                             albumToDisplay={albumToDisplay}
-                            setDisplayResults={props.setDisplayResults}
+                            setDisplayResults={setDisplayResults}
                             setDisplayAlbumDetails={setDisplayAlbumDetails}
-                            setTitle={props.setTitle}
-                            setArtist={props.setArtist}
-                            setAlbum={props.setAlbum}
-                            setGenre={props.setGenre}
-                            setYear={props.setYear}
-                            setTrack={props.setTrack}
-                            setImage={props.setImage}
+                            updateMetadata={updateMetadata}
                         />
                     </div>
                 )}
