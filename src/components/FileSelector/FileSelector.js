@@ -1,34 +1,22 @@
-import React from "react";
-import "./FileSelector.scss";
-import {useDropzone} from "react-dropzone";
-import {useMetadata} from "../../context/MetadataContext";
+import React, {useContext} from 'react';
+import {useDropzone} from 'react-dropzone';
+import {FileContext} from '../../context/FileContext';
+import './FileSelector.scss';
 
 //TODO handle a list of files to edit
 //TODO maybe allow to drop anywhere on the page
 //TODO check compatibility with other file types
 const FileSelector = () => {
-    const {setFile, updateMetadata} = useMetadata();
+    const {setOriginalFile, resetNewTags} = useContext(FileContext);
 
     const {getRootProps, getInputProps} = useDropzone({
         accept: {
-            "audio/mpeg": [],
+            'audio/mpeg': [],
         },
         onDrop: (acceptedFiles) => {
-            const file = acceptedFiles[0];
-            console.log("Selected file:", file.path);
-            if (file) {
-                setFile(file);
-                // Reset metadata when new file is selected
-                updateMetadata({
-                    title: '',
-                    artist: '',
-                    album: '',
-                    genre: '',
-                    year: '',
-                    track: '',
-                    image: 'https://www.chordie.com/images/no-cover.png'
-                });
-            }
+            console.log("Selected file:", acceptedFiles[0].path);
+            resetNewTags();
+            setOriginalFile(acceptedFiles[0]);
         },
     });
 

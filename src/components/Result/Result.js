@@ -1,26 +1,29 @@
-import React from "react";
+import React, {useContext} from "react";
+import {FileContext} from "../../context/FileContext";
 import "./Result.scss";
 
-const Result = (props) => {
-    let title = props.result.title;
+const Result = ({result, setAlbumToDisplay, setDisplayAlbumDetails}) => {
+    const {setDisplayResults} = useContext(FileContext);
+
+    let title = result.title;
     const indexOfSeparator = title.indexOf(" - ");
     const artist = title.substring(0, indexOfSeparator);
     title = title.substring(indexOfSeparator + 3);
-    if (props.result.type === "master") {
+    if (result.type === "master") {
         title += " (Master release)";
     }
 
     const handleSelect = () => {
-        props.setAlbumToDisplay(props.result);
-        props.setDisplayResults(false);
-        props.setDisplayAlbumDetails(true);
+        setAlbumToDisplay(result);
+        setDisplayResults(false);
+        setDisplayAlbumDetails(true);
     };
 
     return (
         <div className="result" onClick={handleSelect}>
             <img
                 className="result-cover"
-                src={props.result.cover_image}
+                src={result.cover_image}
                 alt="cover"
             />
             <p className="title">{title}</p>
