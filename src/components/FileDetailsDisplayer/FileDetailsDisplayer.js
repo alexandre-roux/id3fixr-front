@@ -1,105 +1,128 @@
-import React, {useEffect, useState} from "react";
-import "./FileDetailsDisplayer.scss";
-import {ID3Writer} from "browser-id3-writer";
+import React, {useContext, useEffect} from "react";
 import {saveAs} from "file-saver";
+import {ID3Writer} from "browser-id3-writer";
 import axios from "axios";
+import {FileContext} from "../../context/FileContext";
+import "./FileDetailsDisplayer.scss";
 
-const FileDetailsDisplayer = (props) => {
-    const [tags, setTags] = useState();
+const FileDetailsDisplayer = () => {
+    const {
+        originalFile,
+        originalTags,
+        setOriginalTags,
+        setDisplayResults,
+        newTitle,
+        setNewTitle,
+        newArtist,
+        setNewArtist,
+        newAlbum,
+        setNewAlbum,
+        newGenre,
+        setNewGenre,
+        newYear,
+        setNewYear,
+        newTrack,
+        setNewTrack,
+        newImage,
+    } = useContext(FileContext);
 
     useEffect(() => {
-        if (!props.selectedFile) return;
-        try {
-            window.musicmetadata(props.selectedFile, function (error, result) {
-                if (error) {
-                    console.error("Error reading file metadata:", error);
-                    return;
-                }
-                setTags(result);
-                props.setTags(result);
-                props.setDisplayResults(true);
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    }, [props.selectedFile]);
+        setDisplayResults(false);
+
+        // Reset tags displayed for the original file when a new file is selected
+        setOriginalTags(null);
+
+        window.musicmetadata(originalFile, function (error, result) {
+            if (error) {
+                console.error("Error reading file metadata:", error);
+                return;
+            }
+            setOriginalTags(result);
+            setDisplayResults(true);
+        });
+    }, [originalFile, setDisplayResults, setOriginalTags]);
 
     const writeFile = (coverArrayBuffer) => {
-        console.log("Creating file.")
+        console.log("Creating file.");
         const reader = new FileReader();
         reader.onload = function () {
             const arrayBuffer = reader.result;
-            // arrayBuffer of song or empty arrayBuffer if you just want only id3 tag without song
             const writer = new ID3Writer(arrayBuffer);
-            if (props.title) writer.setFrame("TIT2", props.title);
-            if (props.artist) writer.setFrame("TPE1", [props.artist]);
-            if (props.album) writer.setFrame("TALB", props.album);
-            if (props.year) writer.setFrame("TYER", props.year);
-            if (props.track) writer.setFrame("TRCK", props.track);
-            if (props.genre) writer.setFrame("TCON", [props.genre]);
-            if (arrayBuffer)
+
+            // Use state from context to write new ID3 tags
+            if (newTitle) writer.setFrame("TIT2", newTitle);
+            if (newArtist) writer.setFrame("TPE1", [newArtist]);
+            if (newAlbum) writer.setFrame("TALB", newAlbum);
+            if (newYear) writer.setFrame("TYER", String(newYear)); // Ensure year is a string
+            if (newTrack) writer.setFrame("TRCK", newTrack);
+            if (newGenre) writer.setFrame("TCON", [newGenre]);
+            if (coverArrayBuffer) { // Ensure coverArrayBuffer exists
                 writer.setFrame("APIC", {
                     type: 3,
                     data: coverArrayBuffer,
                     description: "Album cover",
                 });
+            }
+
             writer.addTag();
             const blob = writer.getBlob();
             console.log("File created.");
-            saveAs(blob, props.selectedFile.name);
+            saveAs(blob, originalFile.name);
         };
         reader.onerror = function () {
             console.error("Reader error:", reader.error);
         };
-        reader.readAsArrayBuffer(props.selectedFile);
+        reader.readAsArrayBuffer(originalFile);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Create an ArrayBuffer of the cover image
-        if (props.image) {
+        if (newImage && newImage.startsWith('http')) { // Only fetch if it's a URL
             try {
                 const response = await axios.get(
                     process.env.API_URL + "/image",
                     {
-                        params: {imageurl: props.image},
+                        params: {imageurl: newImage},
                         responseType: "arraybuffer",
                     }
                 );
                 await writeFile(new Uint8Array(response.data));
             } catch (error) {
                 console.error("Error while creating ArrayBuffer for image:", error);
+                // Fallback to writing tags without a cover if the image fetch fails
+                writeFile();
             }
         } else {
+            // Write tags without a new cover if no image is provided or it's not a URL
             writeFile();
         }
     };
 
     return (
         <>
-            {tags && (
-                <form onSubmit={(e) => handleSubmit(e)}>
+            {originalTags && (
+                <form onSubmit={handleSubmit}>
                     <div className="file-details">
                         <div className="original-details">
                             <div>
-                                <p>Filename: {props.selectedFile.name}</p>
+                                <p>Filename: {originalFile.name}</p>
                             </div>
                             <div>
-                                <p>Title: {tags.title}</p>
-                                <p>Artist: {tags.artist}</p>
-                                <p>Album: {tags.album}</p>
-                                <p>Genre: {tags.genre}</p>
-                                <p>Year: {tags.year}</p>
+                                <p>Title: {originalTags.newTitle}</p>
+                                <p>Artist: {originalTags.artist.join(', ')}</p>
+                                <p>Album: {originalTags.album}</p>
+                                <p>Genre: {originalTags.genre.join(', ')}</p>
+                                <p>Year: {originalTags.year}</p>
                                 <p>
-                                    Track: {tags.track.no}/{tags.track.of}
+                                    Track: {originalTags.track.no}/{originalTags.track.of}
                                 </p>
                             </div>
                             <div className="album-cover">
-                                {tags.picture.length > 0 ? (
+                                {originalTags.picture && originalTags.picture.length > 0 ? (
                                     <img
-                                        src={`data:${tags.picture[0].format};base64,${btoa(
-                                            new Uint8Array(tags.picture[0].data).reduce(
+                                        src={`data:${originalTags.picture[0].format};base64,${btoa(
+                                            new Uint8Array(originalTags.picture[0].data).reduce(
                                                 (data, byte) => data + String.fromCharCode(byte),
                                                 ""
                                             )
@@ -114,6 +137,7 @@ const FileDetailsDisplayer = (props) => {
                                 )}
                             </div>
                         </div>
+
                         <div className="button">
                             <input
                                 type="image"
@@ -122,6 +146,7 @@ const FileDetailsDisplayer = (props) => {
                                 name="submit"
                             />
                         </div>
+
                         <div className="new-details">
                             <div>
                                 <p>New values:</p>
@@ -130,43 +155,42 @@ const FileDetailsDisplayer = (props) => {
                                 <input
                                     className="wide"
                                     placeholder="Title"
-                                    value={props.title}
-                                    onChange={(e) => props.setTitle(e.target.value)}
+                                    value={newTitle}
+                                    onChange={(e) => setNewTitle(e.target.value)}
                                 />
                                 <input
                                     className="wide"
                                     placeholder="Artist"
-                                    value={props.artist}
-                                    onChange={(e) => props.setArtist(e.target.value)}
+                                    value={newArtist}
+                                    onChange={(e) => setNewArtist(e.target.value)}
                                 />
                                 <input
                                     className="wide"
                                     placeholder="Album"
-                                    value={props.album}
-                                    onChange={(e) => props.setAlbum(e.target.value)}
+                                    value={newAlbum}
+                                    onChange={(e) => setNewAlbum(e.target.value)}
                                 />
                                 <input
                                     placeholder="Genre"
-                                    value={props.genre}
-                                    onChange={(e) => props.setGenre(e.target.value)}
+                                    value={newGenre}
+                                    onChange={(e) => setNewGenre(e.target.value)}
                                 />
                                 <input
                                     placeholder="Year"
-                                    value={props.year}
-                                    onChange={(e) => props.setYear(e.target.value)}
+                                    type="number" // Use type="number" for year
+                                    value={newYear}
+                                    onChange={(e) => setNewYear(e.target.value)}
                                 />
                                 <input
                                     placeholder="Track"
-                                    value={props.track}
-                                    onChange={(e) => props.setTrack(e.target.value)}
+                                    value={newTrack}
+                                    onChange={(e) => setNewTrack(e.target.value)}
                                 />
                             </div>
                             <div className="album-cover">
                                 <img
                                     src={
-                                        props.image === ""
-                                            ? "https://www.chordie.com/images/no-cover.png"
-                                            : props.image
+                                        newImage || "https://www.chordie.com/images/no-cover.png"
                                     }
                                     alt="New album cover"
                                 />
