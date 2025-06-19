@@ -1,65 +1,74 @@
 .file-details {
-  display: flex;
-  justify-content: space-between;
-
-  div {
-    margin-bottom: 8px;
-  }
-
-  img {
-    max-width: 200px;
-    max-height: 200px;
-  }
-
-  .original-details {
-    flex: 1;
-    //background-color: lightcoral;
-    min-width: 0;
-    min-height: 0;
-    overflow: hidden;
-
-    div:nth-child(1) {
-      p {
-        white-space: nowrap;
-      }
-    }
-
-    div:nth-child(2) {
-      p {
-        margin-bottom: 6px;
-      }
-    }
-  }
-
-  .button {
-    flex: 0;
-    //background-color: lightseagreen;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
 
-    input {
-      height: 50px;
-      width: 50px;
-
-      &:hover {
-        cursor: pointer;
-      }
+    div {
+        margin-bottom: 8px;
     }
-  }
 
-  .new-details {
-    flex: 1;
-    //background-color: lightgreen;
-
-    .form-fields {
-      display: flex;
-      flex-direction: column;
+    img {
+        max-width: 200px;
+        max-height: 200px;
     }
-  }
 
-  .album-cover {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+    .original-details {
+        flex: 1;
+        //background-color: lightcoral;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+
+        div:nth-child(1) {
+            p {
+                white-space: nowrap;
+            }
+        }
+
+        div:nth-child(2) {
+            p {
+                margin-bottom: 6px;
+            }
+        }
+    }
+
+    .button {
+        flex: 0;
+        //background-color: lightseagreen;
+        display: flex;
+        align-items: center;
+
+        input {
+            height: 50px;
+            width: 50px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .new-details {
+        flex: 1;
+
+        .form-fields {
+            display: flex;
+            flex-direction: column;
+
+            .number-input::-webkit-inner-spin-button,
+            .number-input::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            .number-input {
+                -moz-appearance: textfield;
+            }
+        }
+    }
+
+    .album-cover {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 }

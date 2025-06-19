@@ -153,19 +153,16 @@ const FileDetailsDisplayer = () => {
                             </div>
                             <div className="form-fields">
                                 <input
-                                    className="wide"
                                     placeholder="Title"
                                     value={newTitle}
                                     onChange={(e) => setNewTitle(e.target.value)}
                                 />
                                 <input
-                                    className="wide"
                                     placeholder="Artist"
                                     value={newArtist}
                                     onChange={(e) => setNewArtist(e.target.value)}
                                 />
                                 <input
-                                    className="wide"
                                     placeholder="Album"
                                     value={newAlbum}
                                     onChange={(e) => setNewAlbum(e.target.value)}
@@ -176,6 +173,7 @@ const FileDetailsDisplayer = () => {
                                     onChange={(e) => setNewGenre(e.target.value)}
                                 />
                                 <input
+                                    className="number-input"
                                     placeholder="Year"
                                     type="number" // Use type="number" for year
                                     value={newYear}
