@@ -11,17 +11,16 @@ const DiscogsSearcher = () => {
 
     // Local state for search results and UI visibility
     const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [displayAlbumDetails, setDisplayAlbumDetails] = useState(false);
     const [albumToDisplay, setAlbumToDisplay] = useState(null);
 
     useEffect(() => {
-        // Ensure a file is present before searching
-        if (!originalFile) {
-            return;
-        }
-
+        if (isLoading) return;
         setIsLoading(true);
+
+        // Ensure a file is present before searching
+        if (!originalFile) return;
 
         let keywords = originalTags.artist.join(' ') + " " + originalTags.title; // .join(' ') in case of multiple artists
 
