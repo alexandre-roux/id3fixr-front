@@ -18,10 +18,11 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
 
     // Local state for this component's data and loading status.
     const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [artist, setArtist] = useState(""); // Local artist string for display (from API response)
 
     useEffect(() => {
+        if (isLoading) return
         setIsLoading(true);
 
         const fetchData = async () => {
