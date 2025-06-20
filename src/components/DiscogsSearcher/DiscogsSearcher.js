@@ -5,6 +5,7 @@ import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplaye
 import {FileContext} from "../../context/FileContext";
 import "./DiscogsSearcher.scss";
 
+//TODO Check UseEffect dependencies everywhere.
 const DiscogsSearcher = () => {
     // Consume the context for data needed for the search
     const {originalTags, originalFile, displayResults} = useContext(FileContext);
