@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import FileSelector from "../components/FileSelector/FileSelector";
-import FileDetailsDisplayer from "../components/FileDetailsDisplayer/FileDetailsDisplayer";
+import FileDetailsEditor from "../components/FileDetailsDisplayer/FileDetailsEditor";
 import DiscogsSearcher from "../components/DiscogsSearcher/DiscogsSearcher";
 import {FileContext} from "../context/FileContext"; // Adjust the import path
 import "./Home.scss";
@@ -15,7 +15,7 @@ const Home = () => {
             {originalFile && (
                 <>
                     <h1>File details</h1>
-                    <FileDetailsDisplayer/>
+                    <FileDetailsEditor/>
                 </>
             )}
             {originalTags && (

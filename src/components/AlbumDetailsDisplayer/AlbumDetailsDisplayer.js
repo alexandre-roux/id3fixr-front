@@ -30,12 +30,12 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
                 let response;
                 if (albumToDisplay.id === albumToDisplay.master_id) {
                     response = await axios.get(
-                        "https://mp3-tags-corrector.onrender.com/master",
+                        process.env.REACT_APP_API_URL + "/master",
                         {params: {id: albumToDisplay.id}}
                     );
                 } else {
                     response = await axios.get(
-                        "https://mp3-tags-corrector.onrender.com/release",
+                        process.env.REACT_APP_API_URL + "/release",
                         {params: {id: albumToDisplay.id}}
                     );
                 }

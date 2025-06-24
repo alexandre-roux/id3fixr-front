@@ -3,9 +3,9 @@ import {saveAs} from "file-saver";
 import {ID3Writer} from "browser-id3-writer";
 import axios from "axios";
 import {FileContext} from "../../context/FileContext";
-import "./FileDetailsDisplayer.scss";
+import "./FileDetailsEditor.scss";
 
-const FileDetailsDisplayer = () => {
+const FileDetailsEditor = () => {
     const {
         originalFile,
         originalTags,
@@ -78,10 +78,11 @@ const FileDetailsDisplayer = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(newImage);
         if (newImage && newImage.startsWith('http')) { // Only fetch if it's a URL
             try {
                 const response = await axios.get(
-                    process.env.API_URL + "/image",
+                    process.env.REACT_APP_API_URL + "/image",
                     {
                         params: {imageurl: newImage},
                         responseType: "arraybuffer",
@@ -109,7 +110,7 @@ const FileDetailsDisplayer = () => {
                                 <p>Filename: {originalFile.name}</p>
                             </div>
                             <div>
-                                <p>Title: {originalTags.newTitle}</p>
+                                <p>Title: {originalTags.title}</p>
                                 <p>Artist: {originalTags.artist.join(', ')}</p>
                                 <p>Album: {originalTags.album}</p>
                                 <p>Genre: {originalTags.genre.join(', ')}</p>
@@ -201,4 +202,4 @@ const FileDetailsDisplayer = () => {
     );
 };
 
-export default FileDetailsDisplayer;
+export default FileDetailsEditor;

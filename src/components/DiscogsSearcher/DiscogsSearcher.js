@@ -38,7 +38,7 @@ const DiscogsSearcher = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    "https://mp3-tags-corrector.onrender.com/search",
+                    process.env.REACT_APP_API_URL + "/search",
                     {
                         params: {keywords: keywords},
                     }
