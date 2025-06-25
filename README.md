@@ -50,7 +50,7 @@ yarn install
 To start the application, run:
 
 ```bash
-yarn start
+yarn dev
 ```
 
 This will launch the application in your default web browser.
