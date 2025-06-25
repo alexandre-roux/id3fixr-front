@@ -35,7 +35,6 @@ const FileDetailsEditor = () => {
         window.musicmetadata(originalFile, function (error, result) {
             if (error) {
                 console.error("Error reading file metadata:", error);
-                return;
             }
             setOriginalTags(result);
             setDisplayResults(true);
