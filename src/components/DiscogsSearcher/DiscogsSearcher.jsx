@@ -38,7 +38,7 @@ const DiscogsSearcher = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    process.env.REACT_APP_API_URL + "/search",
+                    import.meta.env.VITE_API_URL + "/search",
                     {
                         params: {keywords: keywords},
                     }

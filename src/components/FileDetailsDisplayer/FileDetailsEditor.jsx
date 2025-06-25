@@ -77,11 +77,11 @@ const FileDetailsEditor = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(newImage);
+        console.log("Fetching image:" + newImage);
         if (newImage && newImage.startsWith('http')) { // Only fetch if it's a URL
             try {
                 const response = await axios.get(
-                    process.env.REACT_APP_API_URL + "/image",
+                    import.meta.env.VITE_API_URL + "/image",
                     {
                         params: {imageurl: newImage},
                         responseType: "arraybuffer",
