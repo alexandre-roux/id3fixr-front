@@ -1,18 +1,46 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, ReactNode, useState} from 'react';
 
-const FileContext = createContext();
+interface FileContextType {
+    originalFile: File | null;
+    setOriginalFile: React.Dispatch<React.SetStateAction<File | null>>;
+    originalTags: any | null;
+    setOriginalTags: React.Dispatch<React.SetStateAction<any | null>>;
+    newTitle: string;
+    setNewTitle: React.Dispatch<React.SetStateAction<string>>;
+    newArtist: string;
+    setNewArtist: React.Dispatch<React.SetStateAction<string>>;
+    newAlbum: string;
+    setNewAlbum: React.Dispatch<React.SetStateAction<string>>;
+    newGenre: string;
+    setNewGenre: React.Dispatch<React.SetStateAction<string>>;
+    newYear: string;
+    setNewYear: React.Dispatch<React.SetStateAction<string>>;
+    newTrack: string;
+    setNewTrack: React.Dispatch<React.SetStateAction<string>>;
+    newImage: string;
+    setNewImage: React.Dispatch<React.SetStateAction<string>>;
+    displayResults: boolean;
+    setDisplayResults: React.Dispatch<React.SetStateAction<boolean>>;
+    resetNewTags: () => void;
+}
 
-const FileProvider = ({children}) => {
-    const [originalFile, setOriginalFile] = useState(null);
-    const [originalTags, setOriginalTags] = useState(null);
-    const [newTitle, setNewTitle] = useState('');
-    const [newArtist, setNewArtist] = useState('');
-    const [newAlbum, setNewAlbum] = useState('');
-    const [newGenre, setNewGenre] = useState('');
-    const [newYear, setNewYear] = useState('');
-    const [newTrack, setNewTrack] = useState('');
-    const [newImage, setNewImage] = useState('https://www.chordie.com/images/no-cover.png');
-    const [displayResults, setDisplayResults] = useState(true);
+const FileContext = createContext<FileContextType | undefined>(undefined);
+
+interface FileProviderProps {
+    children: ReactNode;
+}
+
+const FileProvider = ({children}: FileProviderProps) => {
+    const [originalFile, setOriginalFile] = useState<File | null>(null);
+    const [originalTags, setOriginalTags] = useState<any | null>(null);
+    const [newTitle, setNewTitle] = useState<string>('');
+    const [newArtist, setNewArtist] = useState<string>('');
+    const [newAlbum, setNewAlbum] = useState<string>('');
+    const [newGenre, setNewGenre] = useState<string>('');
+    const [newYear, setNewYear] = useState<string>('');
+    const [newTrack, setNewTrack] = useState<string>('');
+    const [newImage, setNewImage] = useState<string>('https://www.chordie.com/images/no-cover.png');
+    const [displayResults, setDisplayResults] = useState<boolean>(true);
 
     const resetNewTags = () => {
         setNewTitle('');
@@ -25,7 +53,7 @@ const FileProvider = ({children}) => {
         setOriginalTags(null);
     };
 
-    const contextValue = {
+    const contextValue: FileContextType = {
         originalFile,
         setOriginalFile,
         originalTags,
@@ -54,6 +82,15 @@ const FileProvider = ({children}) => {
             {children}
         </FileContext.Provider>
     );
+};
+
+// Custom hook to use the FileContext
+export const useFileContext = (): FileContextType => {
+    const context = React.useContext(FileContext);
+    if (context === undefined) {
+        throw new Error('useFileContext must be used within a FileProvider');
+    }
+    return context;
 };
 
 export {FileContext, FileProvider};
