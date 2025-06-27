@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
-import FileSelector from "../components/FileSelector/FileSelector";
-import FileDetailsEditor from "../components/FileDetailsDisplayer/FileDetailsEditor";
-import DiscogsSearcher from "../components/DiscogsSearcher/DiscogsSearcher";
-import {FileContext} from "../context/FileContext"; // Adjust the import path
+import FileSelector from "../components/FileSelector/FileSelector.tsx";
+import FileDetailsEditor from "../components/FileDetailsDisplayer/FileDetailsEditor.tsx";
+import DiscogsSearcher from "../components/DiscogsSearcher/DiscogsSearcher.tsx";
+import {FileContext} from "../context/FileContext.tsx"; // Adjust the import path
 import "./Home.scss";
 
 const Home = () => {

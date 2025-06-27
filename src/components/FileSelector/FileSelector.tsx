@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {useDropzone} from 'react-dropzone';
-import {FileContext} from '../../context/FileContext';
+import {FileContext} from '../../context/FileContext.tsx';
 import './FileSelector.scss';
 
 //TODO handle a list of files to edit

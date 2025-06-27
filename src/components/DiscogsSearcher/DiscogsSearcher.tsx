@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import Result from "../Result/Result";
-import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplayer";
-import {FileContext} from "../../context/FileContext";
+import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplayer.tsx";
+import {FileContext} from "../../context/FileContext.tsx";
 import "./DiscogsSearcher.scss";
 
 //TODO Check UseEffect dependencies everywhere.

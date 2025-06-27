@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {FileContext} from "../../context/FileContext";
+import {FileContext} from "../../context/FileContext.tsx";
 import "./Result.scss";
 
 const Result = ({result, setAlbumToDisplay, setDisplayAlbumDetails}) => {

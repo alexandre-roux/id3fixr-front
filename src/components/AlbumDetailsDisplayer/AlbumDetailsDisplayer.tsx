@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
-import {FileContext} from "../../context/FileContext";
+import {FileContext} from "../../context/FileContext.tsx";
 import "./AlbumDetailsDisplayer.scss";
 
 const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
