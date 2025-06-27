@@ -1,12 +1,11 @@
-import React, {useContext} from "react";
 import FileSelector from "../components/FileSelector/FileSelector.tsx";
 import FileDetailsEditor from "../components/FileDetailsDisplayer/FileDetailsEditor.tsx";
 import DiscogsSearcher from "../components/DiscogsSearcher/DiscogsSearcher.tsx";
-import {FileContext} from "../context/FileContext.tsx"; // Adjust the import path
+import {useFileContext} from "../context/FileContext.tsx"; // Adjust the import path
 import "./Home.scss";
 
 const Home = () => {
-    const {originalFile, originalTags} = useContext(FileContext);
+    const {originalFile, originalTags} = useFileContext();
 
     return (
         <div className="home">

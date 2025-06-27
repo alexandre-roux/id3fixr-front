@@ -1,9 +1,28 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {FileContext} from "../../context/FileContext.tsx";
+import {useFileContext} from "../../context/FileContext.tsx";
 import "./AlbumDetailsDisplayer.scss";
+import {IonIcon} from '@ionic/react';
+import {arrowBackOutline} from 'ionicons/icons';
 
-const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
+interface AlbumDetailsDisplayerProps {
+    albumToDisplay: {
+        id: number;
+        master_id: number;
+    };
+    setDisplayAlbumDetails: (display: boolean) => void;
+}
+
+interface AlbumData {
+    title: string;
+    uri: string;
+    year: string;
+    styles: string[];
+    tracklist: { title: string; position: string }[];
+    images: { uri: string }[];
+}
+
+const AlbumDetailsDisplayer: React.FC<AlbumDetailsDisplayerProps> = ({albumToDisplay, setDisplayAlbumDetails}) => {
     // Consume the context to get access to the global state setters.
     const {
         setDisplayResults,
@@ -14,10 +33,10 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
         setNewYear,
         setNewTrack,
         setNewImage,
-    } = useContext(FileContext);
+    } = useFileContext();
 
     // Local state for this component's data and loading status.
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<AlbumData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [artist, setArtist] = useState(""); // Local artist string for display (from API response)
 
@@ -42,7 +61,7 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
 
                 setData(response.data.release);
                 const artistString = response.data.release.artists
-                    .map((artist) => artist.name)
+                    .map((artist: { name: string }) => artist.name)
                     .join(", ");
                 setArtist(artistString); // Set local artist string for display
             } catch (error) {
@@ -59,28 +78,28 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
         setDisplayResults(true); // Update context to show the results list
     };
 
-    const handleTrackSelected = (track, trackNumber) => {
+    const handleTrackSelected = (track: { title: string; position: string }, trackNumber: string) => {
         setNewTitle(track.title);
         setNewArtist(artist);
-        setNewAlbum(data.title);
-        setNewGenre(data.styles[0] || "");
-        setNewYear(data.year);
+        setNewAlbum(data?.title ?? "");
+        setNewGenre(data?.styles?.[0] ?? "");
+        setNewYear(data?.year ?? "");
         setNewTrack(trackNumber);
-        setNewImage(data.images[0]?.uri || "");
+        setNewImage(data?.images?.[0]?.uri ?? "");
     };
 
-    const handleGenreSelected = (genre) => {
+    const handleGenreSelected = (genre: string) => {
         setNewGenre(genre);
     };
 
-    const handleCoverSelected = (coverUri) => {
+    const handleCoverSelected = (coverUri: string) => {
         setNewImage(coverUri);
     };
 
     return (
         <div className="album-details">
             <div className="back-to-results" onClick={handleBackToResults}>
-                <ion-icon name="arrow-back-outline"/>
+                <IonIcon icon={arrowBackOutline}/>
                 Back to results
             </div>
             {isLoading ? (
@@ -100,7 +119,7 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
                         <p>Album: {data.title}</p>
                         <p>
                             Genre:{" "}
-                            {data.styles?.map((genre, index) => (
+                            {data.styles?.map((genre: string, index: number) => (
                                 <span
                                     key={index}
                                     className="genre-tag"
@@ -116,7 +135,7 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
                     <div>
                         <p>Tracklist (select a track):</p>
                         <ul>
-                            {data.tracklist?.map((track, index) => {
+                            {data.tracklist?.map((track: { title: string; position: string }, index: number) => {
                                 const trackNumber = `${index + 1}/${data.tracklist.length}`;
                                 return (
                                     <li
@@ -130,7 +149,7 @@ const AlbumDetailsDisplayer = ({albumToDisplay, setDisplayAlbumDetails}) => {
                         </ul>
                     </div>
                     <div className="album-covers">
-                        {data.images?.map((image, index) => (
+                        {data.images?.map((image: { uri: string }, index: number) => (
                             <img
                                 key={index}
                                 src={image.uri}

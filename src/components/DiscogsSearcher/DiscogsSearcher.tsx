@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Result from "../Result/Result";
 import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplayer.tsx";
-import {FileContext} from "../../context/FileContext.tsx";
+import {useFileContext} from "../../context/FileContext.tsx";
 import "./DiscogsSearcher.scss";
 
 //TODO Check UseEffect dependencies everywhere.
 const DiscogsSearcher = () => {
     // Consume the context for data needed for the search
-    const {originalTags, originalFile, displayResults} = useContext(FileContext);
+    const {originalTags, originalFile, displayResults} = useFileContext();
 
     // Local state for search results and UI visibility
     const [data, setData] = useState(null);
@@ -30,7 +30,7 @@ const DiscogsSearcher = () => {
             keywords = keywords.replaceAll(" - ", " ");
             keywords = keywords.replace(".mp3", "");
             keywords = keywords.replace("feat.", "");
-            keywords = keywords.replace(/\[.*?\]/g, "");
+            keywords = keywords.replace(/\[.*?]/g, "");
             keywords = keywords.replace(/\(.*?\)/g, "");
         }
         console.log("Searching Discogs DB with keywords: " + keywords);

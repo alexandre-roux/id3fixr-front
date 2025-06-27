@@ -1,10 +1,20 @@
 import React, {createContext, ReactNode, useState} from 'react';
 
+interface Tags {
+    title: string;
+    artist: string[];
+    album: string;
+    genre: string[];
+    year: string;
+    track: { no: number; of: number };
+    picture: { format: string; data: number[] }[];
+}
+
 interface FileContextType {
     originalFile: File | null;
     setOriginalFile: React.Dispatch<React.SetStateAction<File | null>>;
-    originalTags: any | null;
-    setOriginalTags: React.Dispatch<React.SetStateAction<any | null>>;
+    originalTags: Tags | null;
+    setOriginalTags: React.Dispatch<React.SetStateAction<Tags | null>>;
     newTitle: string;
     setNewTitle: React.Dispatch<React.SetStateAction<string>>;
     newArtist: string;
