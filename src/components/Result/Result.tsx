@@ -1,9 +1,19 @@
-import React, {useContext} from "react";
-import {FileContext} from "../../context/FileContext";
+import {useFileContext} from "../../context/FileContext.tsx";
 import "./Result.scss";
+import React from "react";
 
-const Result = ({result, setAlbumToDisplay, setDisplayAlbumDetails}) => {
-    const {setDisplayResults} = useContext(FileContext);
+interface ResultProps {
+    result: {
+        title: string;
+        type: string;
+        cover_image: string;
+    };
+    setAlbumToDisplay: (album: any) => void;
+    setDisplayAlbumDetails: (display: boolean) => void;
+}
+
+const Result: React.FC<ResultProps> = ({result, setAlbumToDisplay, setDisplayAlbumDetails}) => {
+    const {setDisplayResults} = useFileContext();
 
     let title = result.title;
     const indexOfSeparator = title.indexOf(" - ");

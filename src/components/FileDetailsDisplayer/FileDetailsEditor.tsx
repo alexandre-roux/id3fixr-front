@@ -1,8 +1,8 @@
-import React, {useContext, useEffect} from "react";
+import React, {useEffect} from "react";
 import {saveAs} from "file-saver";
 import {ID3Writer} from "browser-id3-writer";
 import axios from "axios";
-import {FileContext} from "../../context/FileContext";
+import {useFileContext} from "../../context/FileContext.tsx";
 import "./FileDetailsEditor.scss";
 
 const FileDetailsEditor = () => {
@@ -24,7 +24,7 @@ const FileDetailsEditor = () => {
         newTrack,
         setNewTrack,
         newImage,
-    } = useContext(FileContext);
+    } = useFileContext();
 
     useEffect(() => {
         setDisplayResults(false);
