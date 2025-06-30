@@ -13,7 +13,7 @@ const FileSelector = () => {
             'audio/mpeg': [],
         },
         onDrop: (acceptedFiles) => {
-            console.log("Selected file:", acceptedFiles[0].name);
+            console.log("Selected file: ", acceptedFiles[0].name);
             resetNewTags();
             setOriginalFile(acceptedFiles[0]);
         },

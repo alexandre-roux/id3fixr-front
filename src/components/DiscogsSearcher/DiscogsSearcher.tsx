@@ -52,10 +52,10 @@ const DiscogsSearcher = () => {
                         params: {keywords: keywords},
                     }
                 );
-                console.log("Discogs API response:", response);
+                console.log("Discogs API response: ", response);
                 setData(response.data.results);
             } catch (error) {
-                console.error("Error fetching data from Discogs API:", error);
+                console.error("Error fetching data from Discogs API: ", error);
                 setData([]); // Set to empty array on error to prevent crashes
             } finally {
                 setIsLoading(false);
