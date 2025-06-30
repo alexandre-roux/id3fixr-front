@@ -1,4 +1,5 @@
-import {useFileContext} from "../../context/FileContext.tsx";
+import { useDispatch } from "react-redux";
+import { setDisplayResults } from "../../store/fileSlice";
 import "./Result.scss";
 import React from "react";
 
@@ -13,7 +14,7 @@ interface ResultProps {
 }
 
 const Result: React.FC<ResultProps> = ({result, setAlbumToDisplay, setDisplayAlbumDetails}) => {
-    const {setDisplayResults} = useFileContext();
+    const dispatch = useDispatch();
 
     let title = result.title;
     const indexOfSeparator = title.indexOf(" - ");
@@ -25,7 +26,7 @@ const Result: React.FC<ResultProps> = ({result, setAlbumToDisplay, setDisplayAlb
 
     const handleSelect = () => {
         setAlbumToDisplay(result);
-        setDisplayResults(false);
+        dispatch(setDisplayResults(false));
         setDisplayAlbumDetails(true);
     };
 

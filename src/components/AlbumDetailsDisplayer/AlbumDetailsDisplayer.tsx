@@ -1,6 +1,16 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {useFileContext} from "../../context/FileContext.tsx";
+import {useDispatch} from "react-redux";
+import {
+    setDisplayResults,
+    setNewTitle,
+    setNewArtist,
+    setNewAlbum,
+    setNewGenre,
+    setNewYear,
+    setNewTrack,
+    setNewImage
+} from "../../store/fileSlice";
 import "./AlbumDetailsDisplayer.scss";
 import {IonIcon} from '@ionic/react';
 import {arrowBackOutline} from 'ionicons/icons';
@@ -23,25 +33,13 @@ interface AlbumData {
 }
 
 const AlbumDetailsDisplayer: React.FC<AlbumDetailsDisplayerProps> = ({albumToDisplay, setDisplayAlbumDetails}) => {
-    // Consume the context to get access to the global state setters.
-    const {
-        setDisplayResults,
-        setNewTitle,
-        setNewArtist,
-        setNewAlbum,
-        setNewGenre,
-        setNewYear,
-        setNewTrack,
-        setNewImage,
-    } = useFileContext();
-
-    // Local state for this component's data and loading status.
+    const dispatch = useDispatch();
     const [data, setData] = useState<AlbumData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [artist, setArtist] = useState(""); // Local artist string for display (from API response)
+    const [artist, setArtist] = useState("");
 
     useEffect(() => {
-        if (isLoading) return
+        if (isLoading) return;
         setIsLoading(true);
 
         const fetchData = async () => {
@@ -63,7 +61,7 @@ const AlbumDetailsDisplayer: React.FC<AlbumDetailsDisplayerProps> = ({albumToDis
                 const artistString = response.data.release.artists
                     .map((artist: { name: string }) => artist.name)
                     .join(", ");
-                setArtist(artistString); // Set local artist string for display
+                setArtist(artistString);
             } catch (error) {
                 console.error("Error while fetching details for album with ID " + albumToDisplay.id + ": ", error);
             } finally {
@@ -75,25 +73,25 @@ const AlbumDetailsDisplayer: React.FC<AlbumDetailsDisplayerProps> = ({albumToDis
 
     const handleBackToResults = () => {
         setDisplayAlbumDetails(false);
-        setDisplayResults(true); // Update context to show the results list
+        dispatch(setDisplayResults(true));
     };
 
     const handleTrackSelected = (track: { title: string; position: string }, trackNumber: string) => {
-        setNewTitle(track.title);
-        setNewArtist(artist);
-        setNewAlbum(data?.title ?? "");
-        setNewGenre(data?.styles?.[0] ?? "");
-        setNewYear(data?.year ?? "");
-        setNewTrack(trackNumber);
-        setNewImage(data?.images?.[0]?.uri ?? "");
+        dispatch(setNewTitle(track.title));
+        dispatch(setNewArtist(artist));
+        dispatch(setNewAlbum(data?.title ?? ""));
+        dispatch(setNewGenre(data?.styles?.[0] ?? ""));
+        dispatch(setNewYear(data?.year ?? ""));
+        dispatch(setNewTrack(trackNumber));
+        dispatch(setNewImage(data?.images?.[0]?.uri ?? ""));
     };
 
     const handleGenreSelected = (genre: string) => {
-        setNewGenre(genre);
+        dispatch(setNewGenre(genre));
     };
 
     const handleCoverSelected = (coverUri: string) => {
-        setNewImage(coverUri);
+        dispatch(setNewImage(coverUri));
     };
 
     return (

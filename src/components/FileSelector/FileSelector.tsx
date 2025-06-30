@@ -1,12 +1,13 @@
 import {useDropzone} from 'react-dropzone';
-import {useFileContext} from '../../context/FileContext.tsx';
+import {useDispatch} from 'react-redux';
+import {setOriginalFile, resetNewTags} from '../../store/fileSlice';
 import './FileSelector.scss';
 
 //TODO handle a list of files to edit
 //TODO maybe allow to drop anywhere on the page
 //TODO check compatibility with other file types
 const FileSelector = () => {
-    const {setOriginalFile, resetNewTags} = useFileContext();
+    const dispatch = useDispatch();
 
     const {getRootProps, getInputProps} = useDropzone({
         accept: {
@@ -14,8 +15,8 @@ const FileSelector = () => {
         },
         onDrop: (acceptedFiles) => {
             console.log("Selected file: ", acceptedFiles[0].name);
-            resetNewTags();
-            setOriginalFile(acceptedFiles[0]);
+            dispatch(resetNewTags());
+            dispatch(setOriginalFile(acceptedFiles[0]));
         },
     });
 

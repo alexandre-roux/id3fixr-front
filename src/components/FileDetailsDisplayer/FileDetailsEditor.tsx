@@ -2,45 +2,44 @@ import React, {useEffect} from "react";
 import {saveAs} from "file-saver";
 import {ID3Writer} from "browser-id3-writer";
 import axios from "axios";
-import {useFileContext} from "../../context/FileContext.tsx";
+import {useSelector, useDispatch} from "react-redux";
+import {RootState} from "../../store";
+import {
+    setOriginalTags,
+    setDisplayResults,
+    setNewTitle,
+    setNewArtist,
+    setNewAlbum,
+    setNewGenre,
+    setNewYear,
+    setNewTrack
+} from "../../store/fileSlice";
 import "./FileDetailsEditor.scss";
 
 const FileDetailsEditor = () => {
-    const {
-        originalFile,
-        originalTags,
-        setOriginalTags,
-        setDisplayResults,
-        newTitle,
-        setNewTitle,
-        newArtist,
-        setNewArtist,
-        newAlbum,
-        setNewAlbum,
-        newGenre,
-        setNewGenre,
-        newYear,
-        setNewYear,
-        newTrack,
-        setNewTrack,
-        newImage,
-    } = useFileContext();
+    const dispatch = useDispatch();
+    const originalFile = useSelector((state: RootState) => state.file.originalFile);
+    const originalTags = useSelector((state: RootState) => state.file.originalTags);
+    const newTitle = useSelector((state: RootState) => state.file.newTitle);
+    const newArtist = useSelector((state: RootState) => state.file.newArtist);
+    const newAlbum = useSelector((state: RootState) => state.file.newAlbum);
+    const newGenre = useSelector((state: RootState) => state.file.newGenre);
+    const newYear = useSelector((state: RootState) => state.file.newYear);
+    const newTrack = useSelector((state: RootState) => state.file.newTrack);
+    const newImage = useSelector((state: RootState) => state.file.newImage);
 
     useEffect(() => {
         if (!originalFile) return;
-        setDisplayResults(false);
-
-        // Reset tags displayed for the original file when a new file is selected
-        setOriginalTags(null);
-
+        dispatch(setDisplayResults(false));
+        dispatch(setOriginalTags(null));
         window.musicmetadata(originalFile, function (error, result) {
             if (error) {
                 console.error("Error reading file metadata: ", error);
             }
-            setOriginalTags(result);
-            setDisplayResults(true);
+            dispatch(setOriginalTags(result));
+            dispatch(setDisplayResults(true));
         });
-    }, [originalFile, setDisplayResults, setOriginalTags]);
+    }, [originalFile, dispatch]);
 
     const writeFile = (coverArrayBuffer: ArrayBuffer | null) => {
         if (!originalFile) return;
@@ -160,34 +159,34 @@ const FileDetailsEditor = () => {
                                 <input
                                     placeholder="Title"
                                     value={newTitle}
-                                    onChange={(e) => setNewTitle(e.target.value)}
+                                    onChange={(e) => dispatch(setNewTitle(e.target.value))}
                                 />
                                 <input
                                     placeholder="Artist"
                                     value={newArtist}
-                                    onChange={(e) => setNewArtist(e.target.value)}
+                                    onChange={(e) => dispatch(setNewArtist(e.target.value))}
                                 />
                                 <input
                                     placeholder="Album"
                                     value={newAlbum}
-                                    onChange={(e) => setNewAlbum(e.target.value)}
+                                    onChange={(e) => dispatch(setNewAlbum(e.target.value))}
                                 />
                                 <input
                                     placeholder="Genre"
                                     value={newGenre}
-                                    onChange={(e) => setNewGenre(e.target.value)}
+                                    onChange={(e) => dispatch(setNewGenre(e.target.value))}
                                 />
                                 <input
                                     className="number-input"
                                     placeholder="Year"
                                     type="number" // Use type="number" for year
                                     value={newYear}
-                                    onChange={(e) => setNewYear(e.target.value)}
+                                    onChange={(e) => dispatch(setNewYear(e.target.value))}
                                 />
                                 <input
                                     placeholder="Track"
                                     value={newTrack}
-                                    onChange={(e) => setNewTrack(e.target.value)}
+                                    onChange={(e) => dispatch(setNewTrack(e.target.value))}
                                 />
                             </div>
                             <div className="album-cover">
