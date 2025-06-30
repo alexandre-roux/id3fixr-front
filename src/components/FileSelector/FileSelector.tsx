@@ -1,6 +1,7 @@
 import {useDropzone} from 'react-dropzone';
 import {useDispatch} from 'react-redux';
-import {setOriginalFile, resetNewTags} from '../../store/fileSlice';
+import {resetNewTags, setFileInfo} from '../../store/fileSlice';
+import {useFileObject} from '../../context/FileObjectContext';
 import './FileSelector.scss';
 
 //TODO handle a list of files to edit
@@ -8,15 +9,26 @@ import './FileSelector.scss';
 //TODO check compatibility with other file types
 const FileSelector = () => {
     const dispatch = useDispatch();
+    const {setOriginalFile} = useFileObject();
 
     const {getRootProps, getInputProps} = useDropzone({
         accept: {
             'audio/mpeg': [],
         },
         onDrop: (acceptedFiles) => {
-            console.log("Selected file: ", acceptedFiles[0].name);
-            dispatch(resetNewTags());
-            dispatch(setOriginalFile(acceptedFiles[0]));
+            if (acceptedFiles[0]) {
+                console.log("Selected file: ", acceptedFiles[0].name);
+                dispatch(resetNewTags());
+                setOriginalFile(acceptedFiles[0]);
+                dispatch(setFileInfo({
+                    name: acceptedFiles[0].name,
+                    size: acceptedFiles[0].size,
+                    type: acceptedFiles[0].type,
+                }));
+            } else {
+                setOriginalFile(null);
+                dispatch(setFileInfo(null));
+            }
         },
     });
 

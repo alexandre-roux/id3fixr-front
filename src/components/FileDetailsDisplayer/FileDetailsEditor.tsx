@@ -2,23 +2,24 @@ import React, {useEffect} from "react";
 import {saveAs} from "file-saver";
 import {ID3Writer} from "browser-id3-writer";
 import axios from "axios";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {
-    setOriginalTags,
     setDisplayResults,
-    setNewTitle,
-    setNewArtist,
     setNewAlbum,
+    setNewArtist,
     setNewGenre,
+    setNewTitle,
+    setNewTrack,
     setNewYear,
-    setNewTrack
+    setOriginalTags
 } from "../../store/fileSlice";
+import {useFileObject} from "../../context/FileObjectContext";
 import "./FileDetailsEditor.scss";
 
 const FileDetailsEditor = () => {
     const dispatch = useDispatch();
-    const originalFile = useSelector((state: RootState) => state.file.originalFile);
+    const {originalFile} = useFileObject();
     const originalTags = useSelector((state: RootState) => state.file.originalTags);
     const newTitle = useSelector((state: RootState) => state.file.newTitle);
     const newArtist = useSelector((state: RootState) => state.file.newArtist);

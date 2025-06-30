@@ -4,6 +4,7 @@ import Result from "../Result/Result";
 import AlbumDetailsDisplayer from "../AlbumDetailsDisplayer/AlbumDetailsDisplayer.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
+import {useFileObject} from "../../context/FileObjectContext";
 import "./DiscogsSearcher.scss";
 
 interface SearchResult {
@@ -21,8 +22,8 @@ interface SearchResult {
 //TODO Check UseEffect dependencies everywhere.
 const DiscogsSearcher = () => {
     const originalTags = useSelector((state: RootState) => state.file.originalTags);
-    const originalFile = useSelector((state: RootState) => state.file.originalFile);
     const displayResults = useSelector((state: RootState) => state.file.displayResults);
+    const {originalFile} = useFileObject();
 
     // Local state for search results and UI visibility
     const [data, setData] = useState<SearchResult[] | null>(null);
