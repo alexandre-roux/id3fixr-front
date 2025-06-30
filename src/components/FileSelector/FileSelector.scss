@@ -1,41 +1,4 @@
 .file-selector {
   margin-bottom: 32px;
-  
-  .dropzone {
-    height: 50px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border-width: 2px;
-    border-radius: 2px;
-    border-color: #eeeeee;
-    border-style: dashed;
-    background-color: #fafafa;
-    color: #bdbdbd;
-    outline: none;
-    transition: border .24s ease-in-out;
 
-    .dropzone-text {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 10px;
-
-      em {
-        font-style: italic;
-      }
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .dropzone:focus {
-    border-color: #2196f3;
-  }
 }

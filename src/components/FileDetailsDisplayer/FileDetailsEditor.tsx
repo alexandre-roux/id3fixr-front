@@ -27,6 +27,7 @@ const FileDetailsEditor = () => {
     } = useFileContext();
 
     useEffect(() => {
+        if (!originalFile) return;
         setDisplayResults(false);
 
         // Reset tags displayed for the original file when a new file is selected
@@ -41,18 +42,22 @@ const FileDetailsEditor = () => {
         });
     }, [originalFile, setDisplayResults, setOriginalTags]);
 
-    const writeFile = (coverArrayBuffer) => {
+    const writeFile = (coverArrayBuffer: ArrayBuffer | null) => {
+        if (!originalFile) return;
+
         console.log("Creating file.");
         const reader = new FileReader();
         reader.onload = function () {
-            const arrayBuffer = reader.result;
+            const arrayBuffer = reader.result as ArrayBuffer;
             const writer = new ID3Writer(arrayBuffer);
 
             // Use state from context to write new ID3 tags
             if (newTitle) writer.setFrame("TIT2", newTitle);
             if (newArtist) writer.setFrame("TPE1", [newArtist]);
             if (newAlbum) writer.setFrame("TALB", newAlbum);
-            if (newYear) writer.setFrame("TYER", String(newYear)); // Ensure year is a string
+            if (newYear) { // @ts-ignore
+                writer.setFrame("TYER", String(newYear));
+            }
             if (newTrack) writer.setFrame("TRCK", newTrack);
             if (newGenre) writer.setFrame("TCON", [newGenre]);
             if (coverArrayBuffer) { // Ensure coverArrayBuffer exists
@@ -74,7 +79,7 @@ const FileDetailsEditor = () => {
         reader.readAsArrayBuffer(originalFile);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         console.log("Fetching image:" + newImage);
@@ -87,15 +92,15 @@ const FileDetailsEditor = () => {
                         responseType: "arraybuffer",
                     }
                 );
-                await writeFile(new Uint8Array(response.data));
+                writeFile(new Uint8Array(response.data));
             } catch (error) {
                 console.error("Error while creating ArrayBuffer for image:", error);
                 // Fallback to writing tags without a cover if the image fetch fails
-                writeFile();
+                writeFile(null);
             }
         } else {
-            // Write tags without a new cover if no image is provided or it's not a URL
-            writeFile();
+            // Write tags without a new cover if no image is provided or if it's not a URL
+            writeFile(null);
         }
     };
 
@@ -106,7 +111,7 @@ const FileDetailsEditor = () => {
                     <div className="file-details">
                         <div className="original-details">
                             <div>
-                                <p>Filename: {originalFile.name}</p>
+                                <p>Filename: {originalFile?.name}</p>
                             </div>
                             <div>
                                 <p>Title: {originalTags.title}</p>

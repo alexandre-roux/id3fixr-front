@@ -1,18 +1,14 @@
 {
     "compilerOptions": {
         "target": "ES2020",
-        // Cible la version de JavaScript moderne
         "useDefineForClassFields": true,
         "lib": [
             "ES2020",
             "DOM",
             "DOM.Iterable"
         ],
-        // Bibliothèques standard à inclure
         "module": "ESNext",
-        // Utilise les modules JS modernes
         "skipLibCheck": true,
-        // Ignore la vérification des types des fichiers de déclaration (.d.ts)
 
         /* Bundler mode */
         "moduleResolution": "bundler",
@@ -20,26 +16,18 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        // N'émet pas de fichiers JS, Vite s'en charge
         "jsx": "react-jsx",
-        // Supporte le JSX moderne de React
 
         /* Linting */
         "strict": true,
-        // Active toutes les vérifications strictes (recommandé)
         "noUnusedLocals": true,
-        // Signale les variables locales non utilisées
         "noUnusedParameters": true,
-        // Signale les paramètres non utilisés
         "noFallthroughCasesInSwitch": true,
-        /* Ajout pour la migration */
         "allowJs": true
-        // Permet d'importer des fichiers .js dans des fichiers .ts
     },
     "include": [
         "src"
     ],
-    // Dossier à inclure dans la compilation
     "references": [
         {
             "path": "./tsconfig.node.json"
