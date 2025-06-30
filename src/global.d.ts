@@ -1,4 +1,6 @@
 // Interface for the structure of ID3 tags returned by musicmetadata
+import React from "react";
+
 interface MusicMetadataResult {
     title: string;
     artist: string[];

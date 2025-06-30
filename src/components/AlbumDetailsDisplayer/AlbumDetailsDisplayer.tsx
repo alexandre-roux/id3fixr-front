@@ -65,7 +65,7 @@ const AlbumDetailsDisplayer: React.FC<AlbumDetailsDisplayerProps> = ({albumToDis
                     .join(", ");
                 setArtist(artistString); // Set local artist string for display
             } catch (error) {
-                console.error("Error while fetching details for album with ID " + albumToDisplay.id + ":", error);
+                console.error("Error while fetching details for album with ID " + albumToDisplay.id + ": ", error);
             } finally {
                 setIsLoading(false);
             }
