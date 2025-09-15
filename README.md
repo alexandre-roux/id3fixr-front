@@ -8,7 +8,7 @@ missing.
 
 ## Live Demo
 
-Try out the application here: [ID3 Tag Corrector Live Demo](https://id3fxr.netlify.app/)
+Try out the application here: [id3fixr Live Demo](https://id3fxr.netlify.app/)
 
 ## How it works
 
