@@ -50,6 +50,6 @@
     "browserslist": "^4.24.2",
     "postcss": "^8.4.47",
     "typescript": "^5.8.3",
-    "vite": "^7.0.7"
+    "vite": "^7.1.11"
   }
 }
